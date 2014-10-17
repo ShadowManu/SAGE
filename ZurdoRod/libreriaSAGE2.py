@@ -83,6 +83,8 @@ class UtilitysSAGE(object):
             if lugar != -1:
                 for i in range(self.horaToBloque[inicio],self.horaToBloque[fin]):
                     self.estadoEstacionamiento[lugar][i] = 2
+                for i in range(self.horaToBloque[fin],24):
+                    self.estadoEstacionamiento[lugar][i] = 3
                 self.placaPuesto[placa] = lugar
             else:
                 return False
@@ -96,7 +98,8 @@ class UtilitysSAGE(object):
         if not placa in self.placaPuesto:
             lugar = self.verificarDisponibilidad(self.horaToBloque[inicio],self.horaToBloque[inicio]+1)
             if lugar != -1:
-                self.estadoEstacionamiento[lugar][self.horaToBloque[inicio]] = 1
+                for i in range(self.horaToBloque[inicio],24):
+                    self.estadoEstacionamiento[lugar][i] = 1
                 self.placaPuesto[placa] = lugar
                 return True
             return False
