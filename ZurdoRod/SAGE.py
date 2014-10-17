@@ -19,6 +19,9 @@ class SAGE(object):
         
     def intentarEstacionar (self, horaLlegada, placa):
         a.estacionar(horaLlegada, placa)
+        
+    def tiempoACobrar(self, placa, tiempoSalida):
+        a.cobrar(tiempoSalida, placa)
 
 
     def __init__(self, params):

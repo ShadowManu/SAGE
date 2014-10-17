@@ -105,15 +105,31 @@ class UtilitysSAGE(object):
             return False
         return False
 
-    
+    def cobrar (self, fin, placa):
+        if placa in self.placaPuesto:
+            lugar = self.placaPuesto[placa]
+            del self.placaPuesto[placa]
+            fi = self.horaToBloque[fin]
+            rOcup = 0
+            rDeso = 0
+            ocupa = 0
+            for i in range (fi):
+                if self.estadoEstacionamiento[lugar][i] != 0:
+                    ocupa = ocupa + 1
+                self.estadoEstacionamiento[lugar][i] = 0
+            for i in range(fi, 24):
+                if self.estadoEstacionamiento[lugar][i] == 2:
+                    rDeso= rDeso + 1
+                elif self.estadoEstacionamiento[lugar][i] == 3:
+                    rOcup = rOcup + 1
+                self.estadoEstacionamiento[lugar][i] = 0
+            print("reservado ocupado:")
+            print(rOcup)
+            print("reservado desocupado:")
+            print(rDeso)
+            print("ocupado:")
+            print(ocupa)
+            
 
-# estas son pruebas
-a = UtilitysSAGE()
-print(a.reservar("6:00am", "10:30am", "12345"))
-print(a.reservar("6:00am", "10:30am", "12345"))
-print(a.reservar("6:00am", "6:30am", "otra"))
-print(a.estacionar("7:00am","54321"))
-print(a.estadoEstacionamiento)
-print(a.placaPuesto)
 
 
