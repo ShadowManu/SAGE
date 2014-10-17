@@ -3,12 +3,13 @@ Created on 16/10/2014
 
 @author: zurdorod
 '''
+from errno import ESTALE
 
 class UtilitysSAGE(object):
     '''
     classdocs
     '''    
-    num_filas = 1
+    num_filas = 10
     placaPuesto = dict()
     horaToBloque = dict ()
     estadoEstacionamiento = [range(24) for i in range(num_filas)]
@@ -54,20 +55,31 @@ class UtilitysSAGE(object):
         [inicio..fin). Retorna el primer puesto con dicha
         disponibilidad. En caso de no haber disponibilidad retorna -1.
         '''
-        hay = -2
-        for i in range(self.num_filas):
-            for j in range(self.horaToBloque[inicio],self.horaToBloque[fin]):
-                if self.estadoEstacionamiento[i][j] > 0:
-                    hay = -1
+        hay = -1
+        if fin - inicio > 1:
+            for i in range(self.num_filas):
+                for j in range(inicio,fin):
+                    if self.estadoEstacionamiento[i][j] > 0:
+                        continue
+                if j == fin-1:
+                    hay = i
                     break
-            if hay != -1:
-                hay = i
-                break
+        else:
+            for i in range(self.num_filas):
+                if self.estadoEstacionamiento[i][inicio] == 0:
+                    hay = i
+                    break
         return hay
 
     def reservar (self, inicio, fin, placa):
-        if not placa in self.placaPuesto:
-            lugar = self.verificarDisponibilidad(inicio, fin)
+        '''
+        Realiza la reserva de un puesto (si esta disponible) en el 
+        horario indicado por el rango [inicio..fin)
+        '''
+        if not placa in self.placaPuesto: # verifica que no intente ingresar 2 veces una misma placa
+            inic = self.horaToBloque[inicio]
+            fi = self.horaToBloque[fin]
+            lugar = self.verificarDisponibilidad(inic, fi) 
             if lugar != -1:
                 for i in range(self.horaToBloque[inicio],self.horaToBloque[fin]):
                     self.estadoEstacionamiento[lugar][i] = 2
@@ -76,11 +88,29 @@ class UtilitysSAGE(object):
                 return False
             return True
         return False
+    
+    def estacionar (self, inicio, placa):
+        '''
+        Verifica si hay un puesto disponible y lo reserva
+        '''
+        if not placa in self.placaPuesto:
+            lugar = self.verificarDisponibilidad(self.horaToBloque[inicio],self.horaToBloque[inicio]+1)
+            if lugar != -1:
+                self.estadoEstacionamiento[lugar][self.horaToBloque[inicio]] = 1
+                self.placaPuesto[placa] = lugar
+                return True
+            return False
+        return False
 
+    
 
+# estas son pruebas
 a = UtilitysSAGE()
 print(a.reservar("6:00am", "10:30am", "12345"))
 print(a.reservar("6:00am", "10:30am", "12345"))
 print(a.reservar("6:00am", "6:30am", "otra"))
+print(a.estacionar("7:00am","54321"))
+print(a.estadoEstacionamiento)
+print(a.placaPuesto)
 
 
