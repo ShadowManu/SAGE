@@ -5,7 +5,7 @@ Created on 16/10/2014
 
 Funcion: TiempoACobrar
 Entrada: 
-    estadoEstacionamiento:
+    estacionamiento:
     placa: string que indica la placa del vehiculo que desea reservar.
     tiempoSalida:
     placaPuesto: 
@@ -18,13 +18,14 @@ el tiempo que ha permanecido estacionado independientemente de si es un cliente
 con reserva o imprevisto.
 '''
 
-def TiempoACobrar(estadoEstacionamiento, placa, tiempoSalida, placaPuesto):
+def TiempoACobrar(estacionamiento, placa, tiempoSalida, placaPuesto):
     
     puesto = placaPuesto.get(placa)
     if puesto == None:
         return None
-        
-        
+    
+    estacionamiento.estadoEstacionamiento[puesto][tiempoSalida]
+    
     salida = {"unidadesReservadoNoOcupado": reservadoNoOcupado,
               "unidadesReservadoOcupado"  : reservadoOcupado,
               "unidadesOcupado"           : TiempoOcupado}    #reservadoNoOcupado, reservadoOcupado y TiempoOcupado
