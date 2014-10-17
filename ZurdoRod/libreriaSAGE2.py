@@ -90,20 +90,27 @@ class UtilitysSAGE(object):
         return False
     
     def estacionar (self, inicio, placa):
+        '''
+        Verifica si hay un puesto disponible y lo reserva
+        '''
         if not placa in self.placaPuesto:
             lugar = self.verificarDisponibilidad(self.horaToBloque[inicio],self.horaToBloque[inicio]+1)
             if lugar != -1:
                 self.estadoEstacionamiento[lugar][self.horaToBloque[inicio]] = 1
+                self.placaPuesto[placa] = lugar
                 return True
             return False
         return False
 
+    
 
+# estas son pruebas
 a = UtilitysSAGE()
 print(a.reservar("6:00am", "10:30am", "12345"))
 print(a.reservar("6:00am", "10:30am", "12345"))
 print(a.reservar("6:00am", "6:30am", "otra"))
 print(a.estacionar("7:00am","54321"))
 print(a.estadoEstacionamiento)
+print(a.placaPuesto)
 
 
