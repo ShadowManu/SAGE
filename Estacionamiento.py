@@ -4,7 +4,6 @@ Created on 28/10/2014
 @author: adolfo, edgar
 (Agregar a todos los demas)
 '''
-import time
 import re
 
 
@@ -182,91 +181,3 @@ class Estacionamiento(object):
     
     def getHorarioReserva(self):
         return self.horario 
-
-
-'''
-    Funciones para declarar un estacionamiento nuevo
-    o parametrizar uno ya existente.
-'''
-def nuevoEst(estacionamientos):
-    if len(estacionamientos) == 5:
-        print("Ya han sido definidos 5 estacionamientos.")
-        return estacionamientos
-    else:
-        ''' ACA DEBERIA IR EL CREAR ESTACIONAMIENTO PERO COMO ADOLFO LO BORRO NO SE'''
-        est = Estacionamiento()
-        estacionamientos.append(est)
-        print("Estacionamiento agregado.\n")
-    return estacionamientos
-
-
-def printEst(estacionamientos):
-    i = 1
-    print("Estacionamientos en el SAGE")
-    for x in estacionamientos:
-        print("  ",i,".- ",x.nombreEstacionamiento)
-        i = i+1
-
-def parametrizarEst(estacionamientos):
-    printEst(estacionamientos)
-        
-    while True:
-        try:
-            opcion = input("Ingrese el numero del estacionamiento a parametrizar:")
-            est = estacionamientos[int(opcion)-1]
-            break
-        except:
-            print("Ingrese un numero valido.")
-    
-    print("Estacionamiento: ", est.nombreEstacionamiento)
-    cap = input("  Ingrese la capacidad del estacionamiento: ")
-    est.setCapacidad(cap)
-    
-    while True:
-        try:
-            horaAbre = input("  Ingrese el horario de apertura del estacionamiento (hh:mm am/pm): ")
-            abre = time.strptime(horaAbre, "%I:%M %p")
-            horaCierra = input("  Ingrese el horario de cierre del estacionamiento (hh:mm am/pm): ")
-            cierra = time.strptime(horaCierra, "%I:%M %p")
-            est.setHorario(abre, cierra)
-            break
-        except:
-            print("Ingrese la hora con el formato correcto: hh:mm am/pm.")
-            
-    while True:
-        try:
-            rest = input("  Habra un horario restringido para reservas? (S/N): ")
-            if rest == 'S' or rest == 's':
-                inicioRest = input("  Ingrese el inicio del horario restringido (hh:mm am/pm): ")
-                inicio = time.strptime(inicioRest, "%I:%M %p")
-                finRest = input("  Ingrese fin del horario restringido (hh:mm am/pm): ")
-                fin = time.strptime(finRest, "%I:%M %p")
-                est.setHorarioReserva(inicio, fin)
-            elif rest == 'N' or rest == 'n':
-                break
-            else:
-                continue
-        except:
-            print("Ingrese la hora con el formato correcto: hh:mm am/pm.")
-        
-    tarifa = input("  Ingrese la tarifa del estacionamiento: ")
-    est.setTarifa(tarifa)
-
-
-if __name__ == "__main__":
-    cincoEst = []
-    
-    while (True):
-        print ("Bienvenido al SAGE")
-        opciones = {'1': nuevoEst, '2': parametrizarEst}
-        print ("1.- Ingresar un nuevo estacionamiento. \n2.- Parametrizar un estacionamiento. \n3.- Salir.")
-        opcion = input("Ingrese una opcion (1, 2 o 3): ")
-        
-        if opcion == "3":
-            print("Hasta luego.")
-            break
-        
-        try:
-            opciones[opcion](cincoEst)
-        except:
-            print("Ingrese una opcion valida.")    
