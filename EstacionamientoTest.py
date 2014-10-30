@@ -6,16 +6,13 @@ Created on Sep 29, 2014
 '''
 import unittest
 from Estacionamiento import Estacionamiento
-from Estacionamiento import MalNombre
 import sys
-'''
-Clase de pruebas para el metodo Empaquetar del archivo p80910123
-'''
+
 
 class TestEstacionamiento(unittest.TestCase):
     
     '''
-    Prueba de none
+    Prueba de none dueño
     '''    
     def testsetNombreDuenioNone(self):
         with self.assertRaises(Exception):
@@ -23,7 +20,7 @@ class TestEstacionamiento(unittest.TestCase):
             Estacionam.setNombreDuenio(none) 
     
     '''
-    Prueba de nombre vacío
+    Prueba de nombre dueño vacío
     '''    
     def testsetNombreDuenioVacio(self):
         with self.assertRaises(Exception):
@@ -31,14 +28,14 @@ class TestEstacionamiento(unittest.TestCase):
             Estacionam.setNombreDuenio("")
             
     '''
-    Prueba de nombre min
+    Prueba de nombre dueño min
     '''    
     def testsetNombreDuenioMin(self):
-            Estacionam = Estacionamiento()
-            Estacionam.setNombreDuenio("a")
+        Estacionam = Estacionamiento()
+        Estacionam.setNombreDuenio("a")
    
     '''
-    Prueba de nombre Inválido simple
+    Prueba de nombre dueño Inválido simple
     '''    
     def testsetNombreDuenioInvalidoSimple(self):
         with self.assertRaises(Exception):
@@ -46,29 +43,92 @@ class TestEstacionamiento(unittest.TestCase):
             Estacionam.setNombreDuenio("3")
    
     '''
-    Prueba de nombre Aceptable
+    Prueba de nombre dueño Aceptable
     '''    
     def testsetNombreDuenioAceptable(self):
-            Estacionam = Estacionamiento()
-            Estacionam.setNombreDuenio("Ana")  
+        Estacionam = Estacionamiento()
+        Estacionam.setNombreDuenio("Ana")  
             
     '''
-    Prueba de nombre con acento
+    Prueba de nombre dueño con acento y ñ
     '''    
     def testsetNombreDuenioAcento(self):
-            Estacionam = Estacionamiento()
-            Estacionam.setNombreDuenio("Ángel")
+        Estacionam = Estacionamiento()
+        Estacionam.setNombreDuenio("Ángelañ")
             
     '''
-    Prueba de nombre con ñ
+    Prueba de nombre dueño caracteres combinados
     '''    
-    def testsetNombreDuenioConEnie(self):
+    def testsetNombreDuenioCombinado(self):
+        with self.assertRaises(Exception):
             Estacionam = Estacionamiento()
-            Estacionam.setNombreDuenio("Toño")         
-              
+            Estacionam.setNombreDuenio("rgewttrt?$#$FFS365ds63ffdffd63:8797343")         
               
             
+    '''
+    Prueba de nombre dueño EXTREMO
+    '''    
+    def testsetNombreDuenioExtremo(self):
+        Estacionam = Estacionamiento()
+        Estacionam.setNombreDuenio("AaaaAFFDddsdIUUUUññññÑÑñúúúúúúááéééíííÍÍÁÁÁÚÚÚíóóóóüüüüüÜÜÜÜÓÓÓÓÓÓÉÉEÉ")
+
+    '''
+    Prueba de getNombreDuenio
+    '''   
+    def testgetNombre(self):
+        Estacionam = Estacionamiento()
+        Estacionam.setNombreDuenio("Ana")
+        self.assertEqual("Ana",Estacionam.getNombreDuenio())   
+            
+    '''
+    Prueba de none Direccion
+    '''    
+    def testsetDireccionNone(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setDireccion(none) 
+    
+    '''
+    Prueba de Direccion vacía
+    '''    
+    def testsetDireccionVacio(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setDireccion("")
+            
+    '''
+    Prueba de Direccion Mínima
+    '''    
+    def testsetDireccionMin(self):
+        Estacionam = Estacionamiento()
+        Estacionam.setDireccion("a")
+   
+   
+    '''
+    Prueba de Dirección aceptabe
+    '''    
+    def testsetDireccionAceptable(self):
+        Estacionam = Estacionamiento()
+        Estacionam.setDireccion("El paraíso, Av. Paéz, Edif Tutuá, Planta Baja 1")  
+            
+            
+    '''
+    Prueba de Dirección EXTREMA
+    '''    
+    def testsetDireccionExtrema(self):
+        Estacionam = Estacionamiento()
+        Estacionam.setDireccion("AaaaAFFDddsdIUUUUññññÑÑÑñúúúúúúááéééíííÍÍÁÁÁÚÚÚíóóóóüüüüüÜÜÜÜÓÓÓÓÓÓÉÉEÉ")
+
+    '''
+    Prueba de getDirección
+    '''   
+    def testgetDireccion(self):
+        Estacionam = Estacionamiento()
+        Estacionam.setDireccion("El paraíso, Av. Páez, Edif Tutuá, Planta Baja 1")
+        self.assertEqual("El paraíso, Av. Páez, Edif Tutuá, Planta Baja 1",Estacionam.getDireccion())   
+
             
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
+   
     unittest.main()
