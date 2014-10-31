@@ -111,7 +111,7 @@ class Estacionamiento(object):
             raise MalDireccion(direccion)
         
         if (direccion == '' ):
-            raise MalDireccion
+            raise MalDireccion(direccion)
         self.direccion = direccion
     
 
@@ -158,10 +158,10 @@ class Estacionamiento(object):
             raise MalRif(rif)
         
         if (rif == '' ):
-            raise MalRif
+            raise MalRif(rif)
         match = re.match("^(J|j|v|V)[0-9]{10}$",rif) 
         if not match:
-            raise MalRif
+            raise MalRif(rif)
         self.rif = rif
     
 
