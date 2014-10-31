@@ -96,7 +96,7 @@ def printEst(estacionamientos):
     i = 1
     print("Estacionamientos en el SAGE")
     for x in estacionamientos:
-        print("  ",i,".- ",x.nombreEstacionamiento)
+        print("  ",i,".- ",x.getNombreEstacionamiento())
         i = i+1
 
 def parametrizarEst(estacionamientos):
@@ -115,7 +115,7 @@ def parametrizarEst(estacionamientos):
         else:
             break
     
-    print("Estacionamiento: ", est.getNombreEstacionamiento)
+    print("Estacionamiento: ", est.getNombreEstacionamiento())
     cap = input("  Ingrese la capacidad del estacionamiento: ")
     est.setCapacidad(cap)
     
