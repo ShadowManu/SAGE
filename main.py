@@ -11,7 +11,7 @@ def nuevoEst(estacionamientos):
         print("Ya han sido definidos 5 estacionamientos.")
         return estacionamientos
     else:
-        est = Estacionamiento()
+        est = Estacionamiento.Estacionamiento()
         error = False
         
         while not(error):
@@ -88,6 +88,9 @@ def printEst(estacionamientos):
         i = i+1
 
 def parametrizarEst(estacionamientos):
+    if estacionamientos == []:
+        print("No hay estacionamientos")
+        return
     printEst(estacionamientos)
         
     while True:
@@ -133,19 +136,19 @@ def parametrizarEst(estacionamientos):
     est.setTarifa(tarifa)
 
 if __name__ == "__main__":
+
     cincoEst = []
+    opciones = {'1':nuevoEst, '2':parametrizarEst}
+    print ("Bienvenido al SAGE")
+    print ("1.- Ingresar un nuevo estacionamiento. \n2.- Parametrizar un estacionamiento. \n3.- Salir.")
     
-    while (True):
-        print ("Bienvenido al SAGE")
-        opciones = {'1': nuevoEst, '2': parametrizarEst}
-        print ("1.- Ingresar un nuevo estacionamiento. \n2.- Parametrizar un estacionamiento. \n3.- Salir.")
-        opcion = input("Ingrese una opcion (1, 2 o 3): ")
-        
-        if opcion == "3":
+    while True:
+                
+        opcion = input ("Ingrese una opcion (1, 2 o 3): ")
+        if opcion == '3':
             print("Hasta luego.")
-            break
-        
+            quit(0)
         try:
             opciones[opcion](cincoEst)
         except:
-            print("Ingrese una opcion valida.")    
+            print("Ingrese una opcion valida.")
