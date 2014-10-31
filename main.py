@@ -116,8 +116,13 @@ def parametrizarEst(estacionamientos):
             break
     
     print("Estacionamiento: ", est.getNombreEstacionamiento)
-    cap = input("  Ingrese la capacidad del estacionamiento: ")
-    est.setCapacidad(cap)
+    while True:
+        cap = input("  Ingrese la capacidad del estacionamiento: ")
+        try:
+            est.setCapacidad(cap)
+        except ValueError:
+            print("Error en el valor vuelva a ingresarlo.")
+            continue
     
     while True:
         try:
@@ -125,29 +130,53 @@ def parametrizarEst(estacionamientos):
             abre = time.strptime(horaAbre, "%I:%M %p")
             horaCierra = input("  Ingrese el horario de cierre del estacionamiento (hh:mm am/pm): ")
             cierra = time.strptime(horaCierra, "%I:%M %p")
+            
+            if abre.tm_hour == cierra.tm_hour:
+                if abre.tm_min <= cierra.tm_min:
+                    print("El horario de cierre debe ser mayor al horario de apertura.\nIngrese los horarios nuevamente")
+                    continue
+            elif abre.tm_hour > cierra.tm_hour:
+                print("El horario de cierre debe ser mayor al horario de apertura.\nIngrese los horarios nuevamente")
+                continue  
+                      
             est.setHorario(abre, cierra)
+            break
         except:
             print("Ingrese la hora con el formato correcto: hh:mm am/pm.")
-        else:
-            break
             
     while True:
-        rest = input("  Habra un horario restringido para reservas? (S/N): ")
         try:
+            rest = input("  Habra un horario restringido para reservas? (S/N): ")
             if rest == 'S' or rest == 's':
                 inicioRest = input("  Ingrese el inicio del horario restringido (hh:mm am/pm): ")
                 inicio = time.strptime(inicioRest, "%I:%M %p")
                 finRest = input("  Ingrese fin del horario restringido (hh:mm am/pm): ")
                 fin = time.strptime(finRest, "%I:%M %p")
+                
+                if inicio.tm_hour == fin.tm_hour:
+                    if inicio.tm_min <= cierra.tm_min:
+                        print("El horario de cierre debe ser mayor al horario de apertura.\nIngrese los horarios nuevamente")
+                        continue
+                elif inicio.tm_hour > fin.tm_hour:
+                    print("El horario de cierre debe ser mayor al horario de apertura.\nIngrese los horarios nuevamente")
+                    continue
+                
                 est.setHorarioReserva(inicio, fin)
-                break
             elif rest == 'N' or rest == 'n':
                 break
+            else:
+                continue
         except:
             print("Ingrese la hora con el formato correcto: hh:mm am/pm.")
+
+    while True:
+        tarifa = input("  Ingrese la tarifa del estacionamiento: ")
+        try:
+            est.setTarifa(tarifa)
+        except ValueError:
+            print("El valor ingresado debe ser un entero.")
+            continue
         
-    tarifa = input("  Ingrese la tarifa del estacionamiento: ")
-    est.setTarifa(tarifa)
     estacionamientos[int(opcion)-1] = est # Falta verificar si hace falta.
     return estacionamientos
 

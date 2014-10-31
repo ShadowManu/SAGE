@@ -55,6 +55,18 @@ class MaxCorreos(Error):
     pass
 
 
+class MalCap(Error):
+    
+    def __init__(self,cap):
+        self.nombre = cap
+        
+
+class MalTarifa(Error):
+
+    def __init__(self,tarifa):
+        self.nombre = tarifa
+
+
 class Estacionamiento(object):
     '''
     Clase para los estacionamientos
@@ -170,7 +182,14 @@ class Estacionamiento(object):
     
 
     def setCapacidad(self,capacidad):
-        self.capacidad = int(capacidad)
+        try:
+            int(capacidad)
+            if capacidad <=0:
+                raise MalCap
+        except:
+            raise MalCap
+        self.capacidad = capacidad
+        
     
 
     def getCapacidad(self):
@@ -178,7 +197,13 @@ class Estacionamiento(object):
     
 
     def setTarifa(self,tarifa):
-        self.tarifa = int(tarifa)
+        try:
+            int(tarifa)
+            if tarifa <=0:
+                raise MalTarifa
+        except:
+            raise MalTarifa
+        self.tarifa = tarifa
     
 
     def getTarifa(self):
