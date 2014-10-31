@@ -182,8 +182,10 @@ class Estacionamiento(object):
     
 
     def setCapacidad(self,capacidad):
+        if (capacidad == '' ):
+            raise MalCap(capacidad)
         if int(capacidad) <= 0:
-            raise MalCap(int(capacidad))
+            raise MalCap(capacidad)
         self.capacidad = capacidad
         
     
@@ -193,8 +195,10 @@ class Estacionamiento(object):
     
 
     def setTarifa(self,tarifa):
-        if int(tarifa) <=0:
-            raise MalTarifa
+        if (tarifa == '' ):
+            raise MalTarifa(tarifa)
+        if int(tarifa) <= 0:
+            raise MalTarifa(tarifa)
         self.tarifa = tarifa
     
 

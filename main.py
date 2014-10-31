@@ -158,9 +158,11 @@ def parametrizarEst(estacionamientos):
         try:
             est.setTarifa(tarifa)
         except Estacionamiento.MalTarifa as t:
-            print("No se acepta" + t.nombre + ".\nVuelva a intentarlo.")
+            print("No se acepta " + t.nombre + ".\nVuelva a intentarlo.")
         else:
             break
+        
+    print(" Se ha modificado correctamente. ")
     estacionamientos[int(opcion)-1] = est # Falta verificar si hace falta.
     return estacionamientos
 
