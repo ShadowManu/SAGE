@@ -107,7 +107,7 @@ class TestEstacionamiento(unittest.TestCase):
     Prueba de Direccion vacía
     '''    
     def testsetDireccionVacio(self):
-        #with self.assertRaises(Exception):
+        with self.assertRaises(Exception):
             Estacionam = Estacionamiento()
             Estacionam.setDireccion("")
             
@@ -270,7 +270,7 @@ class TestEstacionamiento(unittest.TestCase):
     def testsetCapacidadInvalido(self):
         with self.assertRaises(Exception):
             Estacionam = Estacionamiento()
-            Estacionam.setCapacidad("0")
+            Estacionam.setCapacidad(-1)
    
     '''
     Prueba de máximo Int
@@ -286,7 +286,9 @@ class TestEstacionamiento(unittest.TestCase):
     def testgetCapacidad(self):
         Estacionam = Estacionamiento()
         Estacionam.setCapacidad(54645356)
-        self.assertEqual(54645356,Estacionam.getCapacidad())     
+        self.assertEqual(54645356,Estacionam.getCapacidad())
+        
+             
             
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

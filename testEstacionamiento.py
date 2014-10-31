@@ -16,58 +16,6 @@ Clase de pruebas para el metodo Empaquetar del archivo p80910123
 
 class testEstacionamiento(unittest.TestCase):
     
-    '''
-    Prueba de none
-    '''    
-    def testsetNombreDuenioNone(self):
-        with self.assertRaises(Exception):
-            Estacionam = Estacionamiento()
-            Estacionam.setNombreDuenio(None) 
-    
-    '''
-    Prueba de nombre vacío
-    '''    
-    def testsetNombreDuenioVacio(self):
-        with self.assertRaises(Exception):
-            Estacionam = Estacionamiento()
-            Estacionam.setNombreDuenio("")
-            
-    '''
-    Prueba de nombre min
-    '''    
-    def testsetNombreDuenioMin(self):
-            Estacionam = Estacionamiento()
-            Estacionam.setNombreDuenio("a")
-   
-    '''
-    Prueba de nombre Inválido simple
-    '''    
-    def testsetNombreDuenioInvalidoSimple(self):
-        with self.assertRaises(Exception):
-            Estacionam = Estacionamiento()
-            Estacionam.setNombreDuenio("3")
-   
-    '''
-    Prueba de nombre Aceptable
-    '''    
-    def testsetNombreDuenioAceptable(self):
-            Estacionam = Estacionamiento()
-            Estacionam.setNombreDuenio("Ana")  
-            
-    '''
-    Prueba de nombre con acento
-    '''    
-    def testsetNombreDuenioAcento(self):
-            Estacionam = Estacionamiento()
-            Estacionam.setNombreDuenio("Ángel")
-            
-    '''
-    Prueba de nombre con ñ
-    '''    
-    def testsetNombreDuenioConEnie(self):
-            Estacionam = Estacionamiento()
-            Estacionam.setNombreDuenio("Toño")         
-    
               
     def setUp(self):
         pass
@@ -258,6 +206,284 @@ class testEstacionamiento(unittest.TestCase):
     def test_setHoraRBuenC(self):
         oEst = Estacionamiento()
         oEst.setHorarioReserva("09:00 am", "03:00 pm")
+        
+                      
+    
+    #39Prueba de none dueño
+        
+    def testsetNombreDuenioNone(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setNombreDuenio(None) 
+    
+    #40Prueba de Otro tipo
+       
+    def testsetNombreDuenioOtroTipo(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setNombreDuenio(3) 
+    
+    
+    #41 Prueba de nombre dueño vacío
+        
+    def testsetNombreDuenioVacio(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setNombreDuenio("")
+            
+    
+    #42 Prueba de nombre dueño min
+       
+    def testsetNombreDuenioMin(self):
+        Estacionam = Estacionamiento()
+        Estacionam.setNombreDuenio("a")
+   
+    
+    #43 Prueba de nombre dueño Inválido simple
+        
+    def testsetNombreDuenioInvalidoSimple(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setNombreDuenio("3")
+   
+    
+    #44 Prueba de nombre dueño Aceptable
+        
+    def testsetNombreDuenioAceptable(self):
+        Estacionam = Estacionamiento()
+        Estacionam.setNombreDuenio("Ana")  
+            
+    
+    #45 Prueba de nombre dueño con acento y ñ
+        
+    def testsetNombreDuenioAcento(self):
+        Estacionam = Estacionamiento()
+        Estacionam.setNombreDuenio("Ángelañ")
+            
+    
+    #46 Prueba de nombre dueño caracteres combinados
+        
+    def testsetNombreDuenioCombinado(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setNombreDuenio("rgewttrt?$#$FFS365ds63ffdffd63:8797343")         
+              
+            
+    
+    #47 Prueba de nombre dueño EXTREMO
+        
+    def testsetNombreDuenioExtremo(self):
+        Estacionam = Estacionamiento()
+        Estacionam.setNombreDuenio("AaaaAFFDddsdIUUUUññññÑÑñúúúúúúááéééíííÍÍÁÁÁÚÚÚíóóóóüüüüüÜÜÜÜÓÓÓÓÓÓÉÉEÉ")
+
+
+    #48 Prueba de getNombreDuenio
+       
+    def testgetNombre(self):
+        Estacionam = Estacionamiento()
+        Estacionam.setNombreDuenio("Ana")
+        self.assertEqual("Ana",Estacionam.getNombreDuenio())   
+            
+    
+    #49 Prueba de none Direccion
+        
+    def testsetDireccionNone(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setDireccion(None) 
+    
+    #50 Prueba de otro tipo
+        
+    def testsetDireccionOtroTipo(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setDireccion(True)
+    
+    
+    #51 Prueba de Direccion vacía
+       
+    def testsetDireccionVacio(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setDireccion("")
+            
+    
+    #52 Prueba de Direccion Mínima
+        
+    def testsetDireccionMin(self):
+        Estacionam = Estacionamiento()
+        Estacionam.setDireccion("a")
+   
+   
+    
+    #51 Prueba de Dirección aceptabe
+        
+    def testsetDireccionAceptable(self):
+        Estacionam = Estacionamiento()
+        Estacionam.setDireccion("El paraíso, Av. Paéz, Edif Tutuá, Planta Baja 1")  
+            
+            
+    
+    #53 Prueba de Dirección EXTREMA
+        
+    def testsetDireccionExtrema(self):
+        Estacionam = Estacionamiento()
+        Estacionam.setDireccion("AaaaAFFDddsdIUUUUññññÑÑÑñúúúúúúááéééíííÍÍÁÁÁÚÚÚíóóóóüüüüüÜÜÜÜÓÓÓÓÓÓÉÉEÉ")
+
+    
+    #54 Prueba de getDirección
+      
+    def testgetDireccion(self):
+        Estacionam = Estacionamiento()
+        Estacionam.setDireccion("El paraíso, Av. Páez, Edif Tutuá, Planta Baja 1")
+        self.assertEqual("El paraíso, Av. Páez, Edif Tutuá, Planta Baja 1",Estacionam.getDireccion())   
+
+    
+    #55 Prueba de none de Correo
+        
+    def testsetCorreoNone(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setCorreoElectronico(None)
+    
+    
+    #56 Prueba de Otro tipo
+        
+    def testsetCorreoOtroTipo(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setCorreoElectronico(0) 
+       
+    
+    #57 Prueba Correo vacío
+       
+    def testsetCorreoVacio(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setCorreoElectronico("")
+            
+    
+    #58 Prueba de Correo mínimo
+       
+    def testsetCorreoMin(self):
+        Estacionam = Estacionamiento()
+        Estacionam.setCorreoElectronico("a@a.a")
+
+   
+    
+    #59 Prueba de Correo sin @
+       
+    def testsetCorreoSinArroba(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setCorreoElectronico("a.a")
+    
+    
+    #60 Prueba de Correo sin .
+       
+    def testsetCorreoSinPunto(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setCorreoElectronico("a@a")
+   
+            
+    
+    #61 Prueba de correo con caracter invalido
+       
+    def testsetCorreoCaracterInvalido(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setCorreoElectronico("%@ko.b")         
+              
+            
+    
+    #62 Prueba de solamente @ y .
+        
+    def testsetCorreoArrobaPunto(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setCorreoElectronico("@.")
+            
+    
+    #63 Prueba Extrema
+        
+    def testsetCorreoExtremo(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setCorreoElectronico("yyuu898_____-----hjhj2323@hjhjkjk.ko")
+
+            
+    
+    #64 Prueba Agregar más de 2 correos
+        
+    def testsetMasDosCorreos(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setCorreoElectronico("foo@foo.foo")
+            Estacionam.setCorreoElectronico("fii@fii.fii")
+            Estacionam.setCorreoElectronico("fuu@fuu.fuu")
+    
+    #65 Prueba de getCorreo
+       
+    def testgetCorreo(self):
+        Estacionam = Estacionamiento()
+        Estacionam.setCorreoElectronico("luisitoelmalandrito@hotmail.com")
+        self.assertEqual(["luisitoelmalandrito@hotmail.com"],Estacionam.getCorreoElectronico())
+
+    
+    #66 Prueba de none capacidad
+        
+    def testsetCapacidad(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setCapacidad(None) 
+    
+    #67 Prueba de Otro tipo
+        
+    def testsetCapacidadOtroTipo(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setCapacidad("hola") 
+    
+    
+    #68 Prueba de nombre dueño vacío
+        
+    def testsetCapacidadVacio(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setCapacidad("")
+            
+    
+    #69 Prueba de Capacidad min
+       
+    def testsetCapacidadMin(self):
+        Estacionam = Estacionamiento()
+        Estacionam.setCapacidad("1")
+   
+    
+    #70 Prueba de Capacidad Inválido simple
+        
+    def testsetCapacidadInvalido(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setCapacidad(-1)
+   
+    
+    #71 Prueba de máximo Int
+        
+    def testsetCapacidadMax(self):
+        Estacionam = Estacionamiento()
+        Estacionam.setCapacidad(sys.maxint)  
+            
+
+    
+    #72 Prueba de getNombreDuenio
+      
+    def testgetCapacidad(self):
+        Estacionam = Estacionamiento()
+        Estacionam.setCapacidad(54645356)
+        self.assertEqual(54645356,Estacionam.getCapacidad())
+        
         
            
 if __name__ == "__main__":
