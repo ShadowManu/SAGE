@@ -18,6 +18,13 @@ class TestEstacionamiento(unittest.TestCase):
         with self.assertRaises(Exception):
             Estacionam = Estacionamiento()
             Estacionam.setNombreDuenio(none) 
+    '''
+    Prueba de Otro tipo
+    '''    
+    def testsetNombreDuenioOtroTipo(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setNombreDuenio(3) 
     
     '''
     Prueba de nombre dueño vacío
@@ -87,6 +94,13 @@ class TestEstacionamiento(unittest.TestCase):
         with self.assertRaises(Exception):
             Estacionam = Estacionamiento()
             Estacionam.setDireccion(none) 
+    '''
+    Prueba de otro tipo
+    '''    
+    def testsetDireccionOtroTipo(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setDireccion(True)
     
     '''
     Prueba de Direccion vacía
@@ -127,6 +141,87 @@ class TestEstacionamiento(unittest.TestCase):
         Estacionam.setDireccion("El paraíso, Av. Páez, Edif Tutuá, Planta Baja 1")
         self.assertEqual("El paraíso, Av. Páez, Edif Tutuá, Planta Baja 1",Estacionam.getDireccion())   
 
+    '''
+    Prueba de none de Correo
+    '''    
+    def testsetCorreoNone(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setCorreoElectronico(none)
+    
+    '''
+    Prueba de Otro tipo
+    '''    
+    def testsetCorreoOtroTipo(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setCorreoElectronico(0) 
+       
+    '''
+    Prueba Correo vacío
+    '''    
+    def testsetCorreoVacio(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setCorreoElctronico("")
+            
+    '''
+    Prueba de Correo mínimo
+    '''    
+    def testsetCorreoMin(self):
+        Estacionam = Estacionamiento()
+        Estacionam.setCorreoElectronico("a@a.a")
+
+   
+    '''
+    Prueba de Correo sin @
+    '''    
+    def testsetSinArroba(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setNombreDuenio("a.a")
+    
+    '''
+    Prueba de Correo sin .
+    '''    
+    def testsetSinPunto(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setNombreDuenio("a@a")
+   
+            
+    '''
+    Prueba de correo con caracter invalido
+    '''    
+    def testsetNombreDuenioCombinado(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setNombreDuenio("%@ko.b")         
+              
+            
+    '''
+    Prueba de solamente @ y .
+    '''    
+    def testsetNombreDuenioExtremo(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setNombreDuenio("@.")
+            
+    '''
+    Prueba Extrema
+    '''    
+    def testsetCorreoExtremo(self):
+        with self.assertRaises(Exception):
+            Estacionam = Estacionamiento()
+            Estacionam.setCorreoElectronico("yyuu898_____-----hjhj2323@hjhjkjk.ko")
+
+    '''
+    Prueba de getCorreo
+    '''   
+    def testgetCorreo(self):
+        Estacionam = Estacionamiento()
+        Estacionam.setCorreoElectronico("luisitoelmalandrito@hotmail.com")
+        self.assertEqual("luisitoelmalandrito@hotmail.com",Estacionam.getCorreoElectronico())  
             
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
