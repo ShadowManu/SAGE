@@ -5,7 +5,7 @@ Created on 28/10/2014
 (Agregar a todos los demas)
 '''
 import re
-
+re.UNICODE
 
 class Error(Exception):
     pass
@@ -78,7 +78,10 @@ class Estacionamiento(object):
        
 
     def setNombreDuenio(self,nombre):
-        match = re.match('^[A-Za-z]+$', nombre)
+        if not (isinstance(nombre, str)):
+            raise MalNombre(nombre)
+        
+        match = re.match('^[\D]+$', nombre)
         
         if ( not match):
             raise MalNombre(nombre)
@@ -86,13 +89,16 @@ class Estacionamiento(object):
         self.nombreDuenio = nombre        
     
 
-    def getNombreDuenio(self):
+    def getNombreDuenio(self):            
         return self.nombreDuenio
     
 
     def setNombreEstacionamiento(self,nombre):
+        if not (isinstance(nombre, str)):
+            raise MalEstacionamiento(nombre)
+        
         if (nombre == '' ):
-            raise MalEstacionamiento
+            raise MalEstacionamiento(nombre)
         self.nombreEstacionamiento = nombre
     
 
@@ -101,6 +107,9 @@ class Estacionamiento(object):
     
 
     def setDireccion(self,direccion):
+        if not (isinstance(direccion, str)):
+            raise MalDireccion(direccion)
+        
         if (direccion == '' ):
             raise MalDireccion
         self.direccion = direccion
@@ -111,6 +120,9 @@ class Estacionamiento(object):
     
 
     def setTelefonos(self, telefono):
+        if not (isinstance(telefono, str)):
+            raise MalTelefono(telefono)
+        
         if (len(self.telefonos) < 3) :
             match = re.match("^[0-9]{11}$", telefono) 
             if not match:
@@ -125,8 +137,11 @@ class Estacionamiento(object):
 
 
     def setCorreoElectronico(self, email):
+        if not (isinstance(email, str)):
+            raise MalCorreo(email)
+        
         if (len(self.correoElectronico) < 2) :
-            match = re.match("^[a-z0-9]+@([a-z0-9]+\.)+[a-z0-9]+$",email) 
+            match = re.match("^[a-zA-Z0-9|-|_]+@([a-zA-Z0-9|-|_]+\.)+[a-zA-Z0-9]+$",email) 
             if not match:
                 raise MalCorreo(email)
             self.correoElectronico.append(email)
@@ -139,8 +154,13 @@ class Estacionamiento(object):
     
 
     def setRif(self,rif):
-        # Falta verificar los rif
+        if not (isinstance(rif,str)):
+            raise MalRif(rif)
+        
         if (rif == '' ):
+            raise MalRif
+        match = re.match("^(J|j|v|V)[0-9]{10}$",rif) 
+        if not match:
             raise MalRif
         self.rif = rif
     
