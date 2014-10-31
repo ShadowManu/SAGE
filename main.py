@@ -10,73 +10,85 @@ def nuevoEst(estacionamientos):
     if len(estacionamientos) == 5:
         print("Ya han sido definidos 5 estacionamientos.")
         return estacionamientos
-    else:
-        est = Estacionamiento.Estacionamiento()
-        error = False
-        
-        while not(error):
-            nombreD = input("Escriba el nombre del propietario del estacionamiento: ")
-            try:
-                est.setNombreDuenio(nombreD)
-            except Estacionamiento.MalNombre as e:
-                print("el nombre " + e.nombre + " no esta permitido. \nUtilice solo letras.")
-                print("Vuelva a intentarlo.")
-            else: 
-                error=True
-                
-        error = False
+    
+    est = Estacionamiento.Estacionamiento()    
+    
+    while True:
+        nombreD = input("Escriba el nombre del propietario del estacionamiento: ")
+        try:
+            est.setNombreDuenio(nombreD)
+        except Estacionamiento.MalNombre as e:
+            print("El nombre " + e.nombre + " no esta permitido. \nVuelva a intentarlo.")
+        else:
+            break
+
+    while True:
         nombreE = input("Escriba el nombre del estacionamiento: ")
-        est.setNombreEstacionamiento(nombreE)
+        try:
+            est.setNombreEstacionamiento(nombreE)
+        except Estacionamiento.MalEstacionamiento as e:
+            print("El nombre " + e.nombre + " no esta permitido. \nVuelva a intentarlo.")
+        else:
+            break
+
+    while True:
         direccion = input("Escriba la direccion del estacionamiento: ")
-        est.setDireccion(direccion)
-                
-        while not(error):
-            telefono = input("Introduzca un numero de telefono: ")
-            try:
+        try:
+            est.setDireccion(direccion)
+        except Estacionamiento.MalDireccion as e:
+            print("La direccion " + e.nombre + " no esta permitida. \nVuelva a intentarlo.")
+        else:
+            break
+            
+    while True:
+        telefono = input("Introduzca un numero de telefono: ")
+        try:
+            est.setTelefonos(telefono)
+            while True:
+                telefono = input("Introduzca otro numero de telefono (para dejar de agregar numeros ingrese una linea vacia): ")
+                if (telefono == ''):
+                    break
                 est.setTelefonos(telefono)
-                while not(error):
-                    telefono = input("Introduzca otro numero de telefono (para dejar de agregar numeros ingrese una linea vacia): ")
-                    if (telefono == ''):
-                        error=True
-                    else:
-                        est.setTelefonos(telefono)
-            except Estacionamiento.MalTelefono as t:
-                print("El numero " + t.numero + " no esta escrito correctamente")
-                print("Por favor introduzca solo 11 digitos, 4 del codigo mas los 7 restantes.")
-                print("Vuelva a intentarlo.")
-            except Estacionamiento.MaxTelefonos:
-                print("Solo puede tener 3 numeros telefonicos asociados al estacionamiento")
-                error = True
-            else:
-                error = True
-                
-        error = False
-        
-        while not(error):
-            email = input("Introduzca un correo electronico: ")
-            try:
+        except Estacionamiento.MalTelefono as t:
+            print("El numero " + t.numero + " no esta escrito correctamente")
+            print("Por favor introduzca solo 11 digitos, 4 del codigo mas los 7 restantes.")
+            print("Vuelva a intentarlo.")
+        except Estacionamiento.MaxTelefonos:
+            print("Solo puede tener 3 numeros telefonicos asociados al estacionamiento")
+            break
+        else:
+            break
+            
+    while True:
+        email = input("Introduzca un correo electronico: ")
+        try:
+            est.setCorreoElectronico(email)
+            while True:
+                email = input("Introduzca otro correo electronico (para dejar de agregar correos presione 'enter'): ")
+                if (email == ''):
+                    break
                 est.setCorreoElectronico(email)
-                while not(error):
-                    
-                    email = input("Introduzca otro correo electronico (para dejar de agregar correos ingrese una linea vacia): ")
-                    if (email == ''):
-                        error=True
-                    else:
-                        est.setCorreoElectronico(email)
-            except Estacionamiento.MalCorreo as e:
-                print("El correo " + e.email + " no esta escrito correctamente")
-                print("Por favor introduzca un correo electronico valido.")
-                print("Vuelva a intentarlo.")
-            except Estacionamiento.MaxCorreos:
-                print("Solo puede tener 2 correos asociados al estacionamiento")
-                error = True
-            else:
-                error = True
-        
+        except Estacionamiento.MalCorreo as e:
+            print("El correo " + e.email + " no esta escrito correctamente.")
+            print("Por favor introduzca un correo electronico valido.")
+            print("Vuelva a intentarlo.")
+        except Estacionamiento.MaxCorreos:
+            print("Solo puede tener 2 correos asociados al estacionamiento")
+            break
+        else:
+            break
+
+    while True:
         rif = input("Introduzca el rif: ")
-        est.setRif(rif)
-        estacionamientos.append(est)
-        print("Estacionamiento agregado.\n")
+        try:
+            est.setRif(rif)
+        except Estacionamiento.MalRif:
+            print("Formato incorrecto. \nVuelva a intentarlo.")
+        else:
+            break
+
+    estacionamientos.append(est)
+    print("Estacionamiento agregado.\n\n")
     return estacionamientos
 
 
@@ -90,18 +102,20 @@ def printEst(estacionamientos):
 def parametrizarEst(estacionamientos):
     if estacionamientos == []:
         print("No hay estacionamientos")
-        return
+        return estacionamientos
+    
     printEst(estacionamientos)
         
     while True:
+        opcion = input("Ingrese el numero del estacionamiento a parametrizar:")
         try:
-            opcion = input("Ingrese el numero del estacionamiento a parametrizar:")
             est = estacionamientos[int(opcion)-1]
-            break
         except:
             print("Ingrese un numero valido.")
+        else:
+            break
     
-    print("Estacionamiento: ", est.nombreEstacionamiento)
+    print("Estacionamiento: ", est.getNombreEstacionamiento)
     cap = input("  Ingrese la capacidad del estacionamiento: ")
     est.setCapacidad(cap)
     
@@ -112,28 +126,30 @@ def parametrizarEst(estacionamientos):
             horaCierra = input("  Ingrese el horario de cierre del estacionamiento (hh:mm am/pm): ")
             cierra = time.strptime(horaCierra, "%I:%M %p")
             est.setHorario(abre, cierra)
-            break
         except:
             print("Ingrese la hora con el formato correcto: hh:mm am/pm.")
+        else:
+            break
             
     while True:
+        rest = input("  Habra un horario restringido para reservas? (S/N): ")
         try:
-            rest = input("  Habra un horario restringido para reservas? (S/N): ")
             if rest == 'S' or rest == 's':
                 inicioRest = input("  Ingrese el inicio del horario restringido (hh:mm am/pm): ")
                 inicio = time.strptime(inicioRest, "%I:%M %p")
                 finRest = input("  Ingrese fin del horario restringido (hh:mm am/pm): ")
                 fin = time.strptime(finRest, "%I:%M %p")
                 est.setHorarioReserva(inicio, fin)
+                break
             elif rest == 'N' or rest == 'n':
                 break
-            else:
-                continue
         except:
             print("Ingrese la hora con el formato correcto: hh:mm am/pm.")
         
     tarifa = input("  Ingrese la tarifa del estacionamiento: ")
     est.setTarifa(tarifa)
+    estacionamientos[int(opcion)-1] = est # Falta verificar si hace falta.
+    return estacionamientos
 
 if __name__ == "__main__":
 
@@ -149,6 +165,6 @@ if __name__ == "__main__":
             print("Hasta luego.")
             quit(0)
         try:
-            opciones[opcion](cincoEst)
+            cincoEst = opciones[opcion](cincoEst)
         except:
             print("Ingrese una opcion valida.")
