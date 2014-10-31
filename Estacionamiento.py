@@ -5,7 +5,7 @@ Created on 28/10/2014
 (Agregar a todos los demas)
 '''
 import re
-
+re.UNICODE
 
 class Error(Exception):
     pass
@@ -78,7 +78,7 @@ class Estacionamiento(object):
        
 
     def setNombreDuenio(self,nombre):
-        match = re.match('^[A-Za-z]+$', nombre)
+        match = re.match('^[\D]+$', nombre)
         
         if ( not match):
             raise MalNombre(nombre)
@@ -126,7 +126,7 @@ class Estacionamiento(object):
 
     def setCorreoElectronico(self, email):
         if (len(self.correoElectronico) < 2) :
-            match = re.match("^[a-z0-9]+@([a-z0-9]+\.)+[a-z0-9]+$",email) 
+            match = re.match("^[a-zA-Z0-9|-|_]+@([a-zA-Z0-9|-|_]+\.)+[a-zA-Z0-9]+$",email) 
             if not match:
                 raise MalCorreo(email)
             self.correoElectronico.append(email)
@@ -139,8 +139,10 @@ class Estacionamiento(object):
     
 
     def setRif(self,rif):
-        # Falta verificar los rif
         if (rif == '' ):
+            raise MalRif
+        match = re.match("^(J|j|v|V)[0-9]{10}$",rif) 
+        if not match:
             raise MalRif
         self.rif = rif
     
