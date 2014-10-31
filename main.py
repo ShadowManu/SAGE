@@ -107,7 +107,7 @@ def parametrizarEst(estacionamientos):
     printEst(estacionamientos)
         
     while True:
-        opcion = input("Ingrese el numero del estacionamiento a parametrizar:")
+        opcion = input("Ingrese el numero del estacionamiento a parametrizar: ")
         try:
             est = estacionamientos[int(opcion)-1]
         except:
@@ -116,12 +116,13 @@ def parametrizarEst(estacionamientos):
             break
         
     print("Estacionamiento: ", est.getNombreEstacionamiento())
+    
     while True:
         cap = input("  Ingrese la capacidad del estacionamiento: ")
         try:
             est.setCapacidad(cap)
-        except Estacionamiento.MalTarifa:
-            print("No se aceptan numeros negativos\nVuelva a intentarlo.")
+        except Estacionamiento.MalCap as c:
+            print("No se aceptan "+ c.nombre +"\nVuelva a intentarlo.")
         else:
             break
     
@@ -156,8 +157,8 @@ def parametrizarEst(estacionamientos):
         tarifa = input("  Ingrese la tarifa del estacionamiento: ")
         try:
             est.setTarifa(tarifa)
-        except Estacionamiento.MalTarifa:
-            print("El valor ingresado debe ser un entero.")
+        except Estacionamiento.MalTarifa as t:
+            print("No se acepta" + t.nombre + ".\nVuelva a intentarlo.")
         else:
             break
     estacionamientos[int(opcion)-1] = est # Falta verificar si hace falta.
