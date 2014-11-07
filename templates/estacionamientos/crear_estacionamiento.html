@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="utf-8">
 <title>Nuevo Estacionamiento</title>
 </head>
 <body>
 	<h1>Nuevo Estacionamiento</h1>
 
-        <form id="estacionamiento_form" method="post" action="index/">
+        <form id="estacionamiento_form" method="post" action="">
             {% csrf_token %}
             {{ form.as_p }}
             <input type="submit" name="submit" value="Crear Estacionamiento" />

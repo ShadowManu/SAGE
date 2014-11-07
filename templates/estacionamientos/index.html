@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="utf-8">
 <title>Insert title here</title>
 </head>
 <body>
-	<p>MORDE ES NUMERO 1.</p>
+	{% if lista %}
+		<ul>
+		{% for est in lista %}
+			<li><a href="/{{ est.id }}">{{ est.nombre_est }}</a></li>
+		{% endfor %}
+		</ul>
+	{% else %}
+		<p>No hay estacionamientos en el sistema.</p>
+	{% endif %}
+	<a href="/nuevo">Crear Estacionamiento</a>
 </body>
 </html>
