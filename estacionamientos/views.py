@@ -27,3 +27,15 @@ def verEstacionamiento(request, id_est):
     context = RequestContext(request)
     parametros = get_object_or_404(Estacionamiento, pk=id_est)
     return render_to_response('estacionamientos/estacionamiento.html', {'parametros': parametros}, context)
+
+def editarEstacionamiento(request, id_est):
+    context = RequestContext(request)
+    est = get_object_or_404(Estacionamiento, pk=id_est)
+    if request.method == 'POST':
+        form = EstacionamientosForm(request.POST,instance=est)
+        if form.is_valid():
+            form.save(commit=True)
+            return index(request)
+    else:
+        form = EstacionamientosForm(instance=est)
+    return render_to_response('estacionamientos/editar_estacionamiento.html', {'form': form}, context)
