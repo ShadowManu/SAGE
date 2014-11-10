@@ -1,0 +1,42 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SAGE</title>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/NavbarTheme.css' %}">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <link rel="shortcut icon" href="../../assets/images/favicon.ico" type= "image/png">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <img src="{% static 'img/Sage-Logo.png' %}" alt="Banner" class="img img-responsive imagen">
+            </div>
+        </div>
+        <div class="container">
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="container-fluid">
+                    <!-- TITLE AND BUTTON COLLAPSER -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sigulabmenu">
+                            <span class="sr-only">Toggle navigation</span>
+                        </button>
+                    </div>
+                    <!-- COLLAPSABLE MENU -->
+                    <div class="collapse navbar-collapse" id="sigulabmenu">
+                        <ul class="nav navbar-nav">
+                            <li><a href="/">Inicio</a></li>
+                            <li><a href="/nuevo">Nuevo Estacionamiento</a></li>
+                        </ul>
+                    </div><!-- end of collapsable sigulabmenu -->
+                </div><!-- end of container-fluid -->
+            </nav><!-- end of navbar -->
+        </div><!-- end of container -->
+        <div class="container">
+            {% block contenido %}{% endblock %}
+        </div>
+    </body>
+    <link rel="stylesheet" href="{% static 'js/bootstrap.min.js' %}">
+</html>

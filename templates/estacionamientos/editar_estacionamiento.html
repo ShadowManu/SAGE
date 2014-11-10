@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% load bootstrap_toolkit %}
+<meta charset="utf-8">
+{% block contenido %}
+	{% if lista %}
+		<div class="list-group col-lg-3">
+		{% for est in lista %}
+			<a href="/{{ est.id }}" class="list-group-item list-group-item-info panel-est">{{ est.nombre_est }}</a></li>
+		{% endfor %}
+		</div>
+	{% else %}
+		<p>ERROR_1.</p>
+	{% endif %}
+	<div class="col-lg-9">
+		<h1 class="titulo">Modificar Estacionamiento</h1>
+		<form id="estacionamiento_form" method="post" action="" class="form-horizontal" role="form">
+		    {% csrf_token %}			 
+		    {{ form.non_field_errors }}
+			{% for field in form %}
+				<div class="fieldWrapper form-group">
+					{{ field.errors }}
+					{{ field.help_text }}
+					<input type="text" class="form-control" id={{ field }}</input>
+				</div>
+			{% endfor %}
+			<input class="btn btn-primary" type="submit" name="submit" value="Guardar Cambios"/>
+		</form>
+	</div>
+{% endblock %}
