@@ -26,3 +26,4 @@ class EstacionamientosForm(forms.ModelForm):
     class Meta:
         model = Estacionamiento
         fields = '__all__'
+        

@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from estacionamientos.forms import EstacionamientosForm
-from models import Estacionamiento
+from estacionamientos.models import Estacionamiento
 
 
 def layout(request):

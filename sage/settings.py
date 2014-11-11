@@ -7,7 +7,7 @@ https://docs.djangoproject.com/en/1.7/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
-
+    
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
@@ -53,8 +53,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'estacionamientos',
-    'bootstrap_toolkit'
+    'estacionamientos'  
 )
 
 MIDDLEWARE_CLASSES = (
