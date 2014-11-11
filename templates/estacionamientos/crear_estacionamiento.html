@@ -1,16 +1,26 @@
-<!DOCTYPE html>
-<html>
-<head>
+{% extends 'layout.html' %}
+{% load bootstrap_toolkit %}
 <meta charset="utf-8">
-<title>Nuevo Estacionamiento</title>
-</head>
-<body>
-	<h1>Nuevo Estacionamiento</h1>
-
-        <form id="estacionamiento_form" method="post" action="">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" name="submit" value="Crear Estacionamiento" />
-        </form>
-</body>
-</html>
+{% block contenido %}
+<div class="container">
+	<h1 class="titulo">Nuevo Estacionamiento</h1>
+	<div class="row">
+		<div class="col-lg-3">
+		</div>
+		<div class="col-lg-6">
+		<form id="estacionamiento_form" method="post" action="" class="form-horizontal center-block" role="form">
+		    {% csrf_token %}			 
+		    {{ form.non_field_errors }}
+			{% for field in form %}
+				<div class="fieldWrapper form-group">
+					{{ field.errors }}
+					{{ field.help_text }}
+					<input type="text" class="form-control" id={{ field }}</input>
+				</div>
+			{% endfor %}
+			<input class="btn btn-primary" type="submit" name="submit" value="Crear Estacionamiento"/>
+		</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

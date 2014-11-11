@@ -1,15 +1,18 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
     <head>
         <title>SAGE</title>
-         <!-- AQUI DEBER ESTAR BOOTSTRAP -->
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/NavbarTheme.css' %}">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
         <link rel="shortcut icon" href="../../assets/images/favicon.ico" type= "image/png">
     </head>
     <body>
         <div class="container">
             <div class="row">
-                <img src="Sage-Logo.png" alt="Banner" class="col-xs-12">
+                <img src="{% static 'img/Sage-Logo.png' %}" alt="Banner" class="img img-responsive imagen">
             </div>
         </div>
         <div class="container">
@@ -24,16 +27,16 @@
                     <!-- COLLAPSABLE MENU -->
                     <div class="collapse navbar-collapse" id="sigulabmenu">
                         <ul class="nav navbar-nav">
-                            <li><a href="#">Inicio</a></li>
-                            <li><a href="#">Estacionamientos</a></li>
-                            <li><a href="#">Reservar</a></li>
+                            <li><a href="/">Inicio</a></li>
+                            <li><a href="/nuevo">Nuevo Estacionamiento</a></li>
                         </ul>
                     </div><!-- end of collapsable sigulabmenu -->
                 </div><!-- end of container-fluid -->
             </nav><!-- end of navbar -->
         </div><!-- end of container -->
         <div class="container">
-            <!-- AQUI VA CONTENIDO -->
+            {% block contenido %}{% endblock %}
         </div>
     </body>
+    <link rel="stylesheet" href="{% static 'js/bootstrap.min.js' %}">
 </html>
