@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from django.db.models import Q
-from estacionamientos.forms import EstacionamientosForm, ReservaForm
+from estacionamientos.forms import EstacionamientosForm, ReservaForm, PagoForm
 from estacionamientos.models import Estacionamiento, Reserva, Puesto
 
 
@@ -105,3 +105,17 @@ def editarEstacionamiento(request, id_est):
         form = EstacionamientosForm(instance=est)
     return render_to_response('estacionamientos/editar_estacionamiento.html',
                               {'form': form, 'lista': listaEst}, context)
+    
+def pagarReserva(request):
+    context = RequestContext(request)
+    
+    if request.method == 'POST':
+        form = PagoForm(request.POST)
+        if form.is_valid():
+            form.save(commit=True)
+            return index(request)
+    else:
+        form = PagoForm()
+            
+    return render_to_response('estacionamientos/pago.html', {'form': form}, context)    
+
