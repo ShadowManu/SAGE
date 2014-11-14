@@ -20,6 +20,9 @@ class Estacionamiento(models.Model):
     
     def __unicode__(self):
         return self.nombre_est
+    
+    def  __str__(self):
+        return self.nombre_est
 
 
 class Puesto(models.Model):

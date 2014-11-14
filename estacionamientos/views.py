@@ -44,7 +44,7 @@ def crearReserva(request):
             est = form.cleaned_data['estacionamiento']
             inicio = form.cleaned_data['horaInicio']
             fin = form.cleaned_data['horaFin']
-            cap = Estacionamiento.objects.get(nombre_est=est).capacidad
+            cap = Estacionamiento.objects.get(nombre_est=est.nombre_est).capacidad
             puesto = verificarReserva(inicio, fin, cap)
             if puesto:
                 reserva = form.save(commit=False)
