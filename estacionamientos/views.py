@@ -3,7 +3,8 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from django.db.models import Q
 from estacionamientos.forms import EstacionamientosForm, ReservaForm
-from models import Estacionamiento, Reserva, Puesto
+from estacionamientos.models import Estacionamiento, Reserva, Puesto
+from decimal import *
 
 
 def layout(request):
@@ -18,6 +19,22 @@ def verificarReserva(inicio, fin, cap):
         return libres[0]
     else:
         return None
+    
+def calcularMonto(reserva):
+    tarifa = reserva.estacionamiento.tarifa
+    inicio = reserva.horaInicio
+    fin = reserva.horaFin
+    
+    diferenciaHoras= fin.hour - inicio.hour
+    diferenciaMinutos = fin.minute - inicio.minute
+    
+    if (diferenciaMinutos == 0):
+        return Decimal(tarifa * diferenciaHoras).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+    elif (diferenciaMinutos < 0):
+        return Decimal(tarifa * diferenciaHoras).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+    else:
+        return Decimal(tarifa * (1+diferenciaHoras)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+        
 
 def crearReserva(request):
     context = RequestContext(request)
@@ -28,9 +45,6 @@ def crearReserva(request):
             inicio = form.cleaned_data['horaInicio']
             fin = form.cleaned_data['horaFin']
             cap = Estacionamiento.objects.get(nombre_est=est).capacidad
-            print cap
-            print inicio
-            print fin
             puesto = verificarReserva(inicio, fin, cap)
             if puesto:
                 reserva = form.save(commit=False)
