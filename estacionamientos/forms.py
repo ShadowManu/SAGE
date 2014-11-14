@@ -33,3 +33,16 @@ class ReservaForm(forms.ModelForm):
     class Meta:
         model = Reserva
         fields = ['estacionamiento', 'horaInicio', 'horaFin',]
+        
+class PagoForm(forms.ModelForm):
+    TARJETAS = (
+     ('Vista', 'Vista'),
+     ('Mister', 'Mister'),
+     ('Xpres', 'Xpres'))
+      
+    nombre = forms.CharField(help_text="Nombre y Apellido: ")
+    cedula = forms.IntegerField(help_text="Cédula: ")
+    tipoTarjeta = forms.ChoiceField(choices=TARJETAS, help_text="Tipo de tarjeta: ")
+    numeroTarjeta = forms.RegexField(min_length=16, max_length=16, regex=r'^(\d)+$',
+                    error_message = ("Número de tarjeta no válido."))        
+
