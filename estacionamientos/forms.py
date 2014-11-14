@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import re
 from django import forms
-from estacionamientos.models import Estacionamiento, Reserva
+from estacionamientos.models import Estacionamiento, Reserva, Pago
 
 
 class EstacionamientosForm(forms.ModelForm):
@@ -46,3 +46,6 @@ class PagoForm(forms.ModelForm):
     numeroTarjeta = forms.RegexField(min_length=16, max_length=16, regex=r'^(\d)+$',
                     error_message = ("Número de tarjeta no válido."))        
 
+    class Meta:
+        model = Pago
+        fields = ['nombre', 'cedula', 'tipoTarjeta','numeroTarjeta']
