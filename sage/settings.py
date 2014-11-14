@@ -29,6 +29,9 @@ STATIC_PATH = os.path.join(PROJECT_PATH,'static')
 # Direccion database
 DATABASE_PATH = os.path.join(PROJECT_PATH, 'db.sqlite3')
 
+# Formato para ingresar las horas
+TIME_INPUT_FORMATS = ('%I:%M %p',)
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -54,7 +57,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'estacionamientos',
-    'bootstrap_toolkit'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -95,7 +97,9 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
+
+TIME_FORMAT = 'P'
 
 USE_TZ = True
 

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import re
 from django import forms
-from estacionamientos.models import Estacionamiento
+from estacionamientos.models import Estacionamiento, Reserva
 
 
 class EstacionamientosForm(forms.ModelForm):
@@ -26,3 +26,18 @@ class EstacionamientosForm(forms.ModelForm):
     class Meta:
         model = Estacionamiento
         fields = '__all__'
+        
+class ReservaForm(forms.ModelForm):
+    
+    class Meta:
+        model = Reserva
+        fields = ['estacionamiento', 'horaInicio', 'horaFin',]
+    
+    
+    
+    
+    
+    
+    
+    
+    

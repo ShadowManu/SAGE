@@ -20,3 +20,21 @@ class Estacionamiento(models.Model):
     
     def __unicode__(self):
         return self.nombre_est
+
+
+class Puesto(models.Model):
+    estacionamiento = models.ForeignKey(Estacionamiento)
+    numero = models.IntegerField()
+    
+    def __unicode__(self):
+        return str(self.estacionamiento)+" - "+str(self.numero)
+
+
+class Reserva(models.Model):
+    estacionamiento = models.ForeignKey(Estacionamiento)
+    puesto = models.ForeignKey(Puesto)
+    horaInicio = models.TimeField()
+    horaFin = models.TimeField()
+    
+    def __unicode__(self):
+        return "reserva"
