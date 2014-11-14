@@ -38,3 +38,15 @@ class Reserva(models.Model):
     
     def __unicode__(self):
         return "reserva"
+    
+class Pago(models.Model):  
+    nombre = models.CharField(max_length=30)
+    cedula = models.PositiveIntegerField(max_length=8)
+    tipoTarjeta = models.CharField(max_length=8)
+    numeroTarjeta = models.CharField(max_length=16)
+    pago = models.DecimalField(max_digits=8, decimal_places=2)
+
+    
+    def __unicode__(self):
+        return self.nombre
+    
