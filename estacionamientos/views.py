@@ -86,7 +86,6 @@ def crearEstacionamiento(request):
         if form.is_valid():
             cap = form.cleaned_data['capacidad']
             est = form.cleaned_data['nombre_est']
-            print cap
             form.save(commit=True)
             i = 1
             aux = Estacionamiento.objects.get(nombre_est=est)
