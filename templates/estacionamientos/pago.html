@@ -9,28 +9,28 @@
 		<div class="col-lg-6">
 		<form id="pago_form" method="post" action="" class="form-horizontal center-block" role="form">
 		    {% csrf_token %}			 
-		    {{ form.non_field_errors }}
-			<div class="fieldWrapper form-group">
-				{{ form.nombre.errors }}
-				{{ form.nombre.help_text }}
-				<input type="text" class="form-control" id={{ form.nombre }}</input>
-			</div>
-			<div class="fieldWrapper form-group">
-				{{ form.cedula.errors }}
-				{{ form.cedula.help_text }}
-				<input type="text" class="form-control" id={{ form.cedula }}</input>
-			</div>
-			<p style="text-align:right">
-				{{ form.tipoTarjeta.errors }}
-				{{ form.tipoTarjeta.help_text }}
-				{{ form.tipoTarjeta }}						
-			<p/>
-			<div class="fieldWrapper form-group">
-				{{ form.numeroTarjeta.errors }}
-				{{ form.numeroTarjeta.help_text }}
-				<input type="text" class="form-control" id={{ form.numeroTarjeta }}</input>
-			</div>
-			<input class="btn btn-primary" type="submit" name="submit" value="Pagar"/>
++		    {{ form.non_field_errors }}
++			<div class="fieldWrapper form-group">
++				{{ form.nombre.errors }}
++				{{ form.nombre.help_text }}
++				<input type="text" class="form-control" id="{{ form.nombre }}"></input>
++			</div>
++			<div class="fieldWrapper form-group">
++				{{ form.cedula.errors }}
++				{{ form.cedula.help_text }}
++				<input type="text" class="form-control" id="{{ form.cedula }}"></input>
++			</div>
++			<p style="text-align:right">
++				{{ form.tipoTarjeta.errors }}
++				{{ form.tipoTarjeta.help_text }}
++				{{ form.tipoTarjeta }}						
++			<p/>
++			<div class="fieldWrapper form-group">
++				{{ form.numeroTarjeta.errors }}
++				{{ form.numeroTarjeta.help_text }}
++				<input type="text" class="form-control" id="{{ form.numeroTarjeta }}"></input>
++			</div>
++			<input class="btn btn-primary" type="submit" name="submit" value="Pagar"/>
 		</form>
 		</div>
 	</div>

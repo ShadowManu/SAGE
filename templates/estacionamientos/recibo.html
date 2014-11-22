@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+{% block contenido %}
+	<h2>Se ha registrado su reservaci&oacute;n con &eacute;xito</h2>
+	
+	{% for form in form_data %}
+		{{ form }}
+	{% endfor %}
+	
+{% endblock %}
