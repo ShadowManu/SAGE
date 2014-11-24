@@ -12,7 +12,7 @@ class Estacionamiento(models.Model):
     email3 = models.EmailField(null=True, blank=True)
     rif = models.IntegerField()
     capacidad = models.IntegerField(null=True, blank=True)
-    tarifa = models.IntegerField(null=True, blank=True)
+    tarifa = models.DecimalField(null=True, blank=True, max_digits=7, decimal_places=2)
     horaI = models.TimeField(null=True, blank=True)
     horaF = models.TimeField(null=True, blank=True)
     reservaI = models.TimeField(null=True, blank=True)
