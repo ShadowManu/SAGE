@@ -1,14 +1,13 @@
-from django.http import HttpResponse
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from django.db.models import Q
 from estacionamientos.forms import EstacionamientosForm, ReservaForm, PagoForm
 from estacionamientos.models import Estacionamiento, Reserva, Puesto
-from decimal import *
+from decimal import Decimal, ROUND_HALF_UP
 import bisect
 
 def layout(request):
-    context = RequestContext(request)
+    RequestContext(request)
     return render_to_response('estacionamientos/layout.html')
 
 def verificarReserva(entrada, salida, cap):
