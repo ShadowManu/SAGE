@@ -18,13 +18,13 @@
 		<p>Telefono 2: {{ parametros.telefono2|default_if_none:"No especificó." }}</p>
 		<p>Telefono 3: {{ parametros.telefono3|default_if_none:"No especificó." }}</p>
 		<p>Email 1: {{ parametros.email1 }}</p>
-		<p>Email 2: {{ parametros.email2|default_if_none:"No especificó." }}</p>
-		<p>email 3: {{ parametros.email3|default_if_none:"No especificó." }}</p>
+		<p>Email 2: {{ parametros.email2 |default_if_none:"No especificó." }}</p>
+		<p>Email 3: {{ parametros.email3 |default_if_none:"No especificó." }}</p>
 		<p>Rif: {{ parametros.rif }}</p>
-		<p>Capacidad: {{ parametros.capacidad }}</p>
-		<p>tarifa: {{ parametros.capacidad }}</p>
-		<p>Hora apertura: {{ parametros.horaI }}</p>
-		<p>Hora Cierre: {{ parametros.horaF }}</p>
+		<p>Capacidad: {{ parametros.capacidad |default_if_none:"No especificó." }}</p>
+		<p>Tarifa: {{ parametros.tarifa |default_if_none:"No especificó." }}</p>
+		<p>Hora apertura: {{ parametros.horaI |default_if_none:"No especificó." }}</p>
+		<p>Hora Cierre: {{ parametros.horaF |default_if_none:"No especificó." }}</p>
 		<p>Hora inicio de restriccion de reserva: {{ parametros.reservaI|default_if_none:"No especificó." }}</p>
 		<p>Hora fin de restriccion de reserva: {{ parametros.reservaF|default_if_none:"No especificó." }}</p>
 		<button type="button" class="btn btn-primary"><a href="/{{ parametros.id }}/editar/">Editar</a></li></button>
