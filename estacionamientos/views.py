@@ -5,20 +5,45 @@ from django.db.models import Q
 from estacionamientos.forms import EstacionamientosForm, ReservaForm, PagoForm
 from estacionamientos.models import Estacionamiento, Reserva, Puesto
 from decimal import *
-
+import bisect
 
 def layout(request):
     context = RequestContext(request)
     return render_to_response('estacionamientos/layout.html')
 
-def verificarReserva(inicio, fin, cap):
-    libres = Puesto.objects.exclude(Q(reserva__horaInicio__gte=inicio)|
-                                    Q(reserva__horaFin__lte=fin)).exclude(reserva__horaInicio__lt=inicio,
-                                                                          reserva__horaFin__gt=fin)
-    if libres:
-        return libres[0]
-    else:
-        return None
+def verificarReserva(entrada, salida, cap):
+    # Una unica consulta sin ordenamiento, presumiblemente O(n)
+    #intersecciones = Reserva.objects.filter(Q(horaInicio__range = (entrada, salida))|Q(horaFin__range = (entrada, salida)))
+    intersecciones = Reserva.objects.filter( (Q(horaInicio__gte = entrada) & Q(horaInicio__lt = salida))
+                                           | (Q(horaFin__gt = entrada)     & Q(horaFin__lte = salida)))
+    
+    inis = []
+    fins = []
+    
+    # Recorrer el Queryset O(n), insertion Sort O(n)
+    for inter in intersecciones:
+        inicio = (inter.horaInicio.hour * 60) + inter.horaInicio.minute
+        fin    = (inter.horaFin.hour * 60)    + inter.horaFin.minute
+        bisect.insort(inis, inicio)
+        bisect.insort(fins, fin)
+    
+    i = 0
+    j = 0
+    cnt = 0
+    # Algoritmo de Marzullo para intervalos O(n) con algunas modificaciones
+    while i < len(inis) and j < len(fins):
+        if inis[i] < fins [j]:
+            cnt = cnt + 1
+            i = i + 1
+        elif inis[i] == fins[j]:
+            i = i + 1
+            j = j + 1
+        else:
+            cnt = cnt - 1
+            j = j + 1
+        if cnt == cap:
+            return False
+    return True
     
 def calcularMonto(reserva):
     tarifa = reserva.estacionamiento.tarifa
@@ -45,11 +70,9 @@ def crearReserva(request):
             inicio = form.cleaned_data['horaInicio']
             fin = form.cleaned_data['horaFin']
             cap = Estacionamiento.objects.get(nombre_est=est.nombre_est).capacidad
-            puesto = verificarReserva(inicio, fin, cap)
-            if puesto:
-                reserva = form.save(commit=False)
-                reserva.puesto = puesto
-                reserva.save()
+            hayReserva = verificarReserva(inicio, fin, cap)
+            if hayReserva:
+                form.save(commit=True)
             else:
                 ocupado = True
                 return render_to_response('estacionamientos/crear_reserva.html',
