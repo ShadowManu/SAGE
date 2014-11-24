@@ -13,12 +13,15 @@ class Estacionamiento(models.Model):
     rif = models.IntegerField()
     capacidad = models.IntegerField(null=True, blank=True)
     tarifa = models.IntegerField(null=True, blank=True)
-    horaI = models.TimeField(null=True, blank=True)
-    horaF = models.TimeField(null=True, blank=True)
+    horaI = models.TimeField()
+    horaF = models.TimeField()
     reservaI = models.TimeField(null=True, blank=True)
     reservaF = models.TimeField(null=True, blank=True)
     
     def __unicode__(self):
+        return self.nombre_est
+    
+    def  __str__(self):
         return self.nombre_est
 
 

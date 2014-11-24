@@ -4,6 +4,7 @@ from django.db.models import Q, F
 from django.contrib.formtools.wizard.views import SessionWizardView
 from estacionamientos.forms import EstacionamientosForm, ReservaForm, PagoForm
 from estacionamientos.models import Estacionamiento, Reserva, Puesto
+from decimal import *
 
 
 def layout(request):
@@ -13,8 +14,6 @@ def layout(request):
 def verificarReserva(inicio, fin, nombre):
     est = Estacionamiento.objects.get(nombre_est=nombre)
     sinReserva = Puesto.objects.filter(~Q(reserva__puesto=F('id')), estacionamiento=est)
-    print "______"
-    print sinReserva
     
     if sinReserva:
         return sinReserva[0]
@@ -26,17 +25,29 @@ def verificarReserva(inicio, fin, nombre):
                                    estacionamiento=est)
     
     #libres = Puesto.objects.filter((Q(reserva__horaInicio__gte=fin) & Q(reserva__horaFin__gt=fin) & Q(reserva__horaInicio__gt=inicio) & Q(reserva__horaFin__gt=inicio)) |(Q(reserva__horaInicio__lt=inicio) & Q(reserva__horaFin__lte=inicio) &Q(reserva__horaInicio__lt=fin) & Q(reserva__horaFin__lt=fin)),estacionamiento=est)
-    
-    reservas = Reserva.objects.filter(puesto__estacionamiento=est)
-    print reservas
-    
-    print libres
+        
     if libres:
         return libres[0]
     else:
         return None
+    
+    
+def calcularMonto(reserva):
+    tarifa = reserva.estacionamiento.tarifa
+    inicio = reserva.horaInicio
+    fin = reserva.horaFin
+    
+    diferenciaHoras= fin.hour - inicio.hour
+    diferenciaMinutos = fin.minute - inicio.minute
+    
+    if (diferenciaMinutos == 0):
+        return Decimal(tarifa * diferenciaHoras).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+    elif (diferenciaMinutos < 0):
+        return Decimal(tarifa * diferenciaHoras).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+    else:
+        return Decimal(tarifa * (1+diferenciaHoras)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
         
-        
+
 def crearReserva(request):
     context = RequestContext(request)
     if request.method == 'POST':
@@ -62,16 +73,17 @@ def crearReserva(request):
                               {'form': form}, context)
 
 
+# Contact Wizard
 class ContactWizard(SessionWizardView):
     template_name = 'estacionamientos/reservas.html'
     
-    def done(self, form_list, **kwargs):
-        form_data = procesar_form_data(form_list)
+    def done(self, form_list, form_dict, **kwargs):
+        form_data = procesar_form_data(form_list,form_dict)
         
         return render_to_response('estacionamientos/recibo.html', {'form_data': form_data})
 
 
-def procesar_form_data(form_list):
+def procesar_form_data(form_list, form_dict):
     form_data = [form.cleaned_data for form in form_list]
     
     return form_data

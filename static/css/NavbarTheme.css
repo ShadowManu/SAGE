@@ -16,6 +16,14 @@ body > div:nth-child(3) > div.col-lg-9 > button a{
 	max-height: 900px;
 }
 
+.espacio{
+	margin-left: 5%;
+}
+
+.right{
+	text-align: center;
+}
+
 .navbar-default {
 	background-color: #5d536c;
 	border-color: #726584;
