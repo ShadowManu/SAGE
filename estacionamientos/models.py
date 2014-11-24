@@ -34,7 +34,8 @@ class Puesto(models.Model):
 
 
 class Reserva(models.Model):
-    puesto = models.ForeignKey(Puesto)
+    estacionamiento = models.ForeignKey(Estacionamiento)
+    #puesto = models.ForeignKey(Puesto)
     horaInicio = models.TimeField()
     horaFin = models.TimeField()
     

@@ -35,11 +35,9 @@ class EstacionamientosForm(forms.ModelForm):
     tarifa = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control',
                                                               'placeholder': 'Tarifa',}))
     horaI = forms.TimeField(widget=forms.TextInput(attrs={'class': 'form-control',
-                                                          'placeholder': 'Hora Apertura',}),
-                            required=False)
+                                                          'placeholder': 'Hora Apertura',}))
     horaF = forms.TimeField(widget=forms.TextInput(attrs={'class': 'form-control',
-                                                          'placeholder': 'Hora Cierre',}),
-                            required=False)
+                                                          'placeholder': 'Hora Cierre',}))
     reservaI = forms.TimeField(widget=forms.TextInput(attrs={'class': 'form-control',
                                                              'placeholder': 'Inicio Restringir Reserva',}),
                                required=False)
@@ -63,7 +61,7 @@ class ReservaForm(forms.ModelForm):
     
     class Meta:
         model = Reserva
-        fields = ['horaInicio', 'horaFin',]
+        fields = ['horaInicio', 'horaFin', 'estacionamiento']
         
         
 class PagoForm(forms.ModelForm):

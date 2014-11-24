@@ -10,18 +10,9 @@
 		<p>El estacionamiento {{ estacionamiento }} esta lleno en ese horario, por favor introduzca otro horario de reserva.</p>
 	{% endif %}
 	<form id="estacionamiento_form" method="post" action="" class="form-horizontal center-block" role="form">
-		    {% csrf_token %}			 
-		    <div class="fieldWrapper form-group">
-				{{ form.horaInicio.errors }}
-				{{ form.horaInicio }}
-			</div>
-			<div class="fieldWrapper form-group">
-				{{ form.horaFin.errors }}
-				{{ form.horaFin }}
-			</div>
-			{{ form.estacionamiento }}
-			<br/>
-			<input class="btn btn-primary" type="submit" name="submit" value="Reservar Puesto"/>
+	    {% csrf_token %}			 
+	    {{ form }}
+		<input class="btn btn-primary" type="submit" name="submit" value="Reservar Puesto"/>
 	</form>
 	</div>
 </div>

@@ -1,35 +1,49 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.db.models import Q, F
-from django.contrib.formtools.wizard.views import SessionWizardView
+from django.contrib.formtools.wizard.views import SessionWizardView, WizardView
 from estacionamientos.forms import EstacionamientosForm, ReservaForm, PagoForm
 from estacionamientos.models import Estacionamiento, Reserva, Puesto
-from decimal import *
-
+from decimal import Decimal, ROUND_HALF_UP
+import bisect
 
 def layout(request):
+    RequestContext(request)
     return render_to_response('estacionamientos/layout.html')
 
-
-def verificarReserva(inicio, fin, nombre):
-    est = Estacionamiento.objects.get(nombre_est=nombre)
-    sinReserva = Puesto.objects.filter(~Q(reserva__puesto=F('id')), estacionamiento=est)
+def verificarReserva(entrada, salida, cap):
+    # Una unica consulta sin ordenamiento, presumiblemente O(n)
+    #intersecciones = Reserva.objects.filter(Q(horaInicio__range = (entrada, salida))|Q(horaFin__range = (entrada, salida)))
+    intersecciones = Reserva.objects.filter( (Q(horaInicio__gte = entrada) & Q(horaInicio__lt = salida))
+                                           | (Q(horaFin__gt = entrada)     & Q(horaFin__lte = salida)))
     
-    if sinReserva:
-        return sinReserva[0]
-        
-    libres = Puesto.objects.filter((Q(reserva__horaInicio__lt=inicio) & Q(reserva__horaFin__lte=inicio) &
-                                    Q(reserva__horaInicio__lt=fin) & Q(reserva__horaFin__lt=fin)) |
-                                   (Q(reserva__horaInicio__gt=inicio)& Q(reserva__horaFin__gt=inicio) &
-                                    Q(reserva__horaInicio__gte=fin) & Q(reserva__horaFin__gt=fin)),
-                                   estacionamiento=est)
+    inis = []
+    fins = []
     
-    #libres = Puesto.objects.filter((Q(reserva__horaInicio__gte=fin) & Q(reserva__horaFin__gt=fin) & Q(reserva__horaInicio__gt=inicio) & Q(reserva__horaFin__gt=inicio)) |(Q(reserva__horaInicio__lt=inicio) & Q(reserva__horaFin__lte=inicio) &Q(reserva__horaInicio__lt=fin) & Q(reserva__horaFin__lt=fin)),estacionamiento=est)
-        
-    if libres:
-        return libres[0]
-    else:
-        return None
+    # Recorrer el Queryset O(n), insertion Sort O(n)
+    for inter in intersecciones:
+        inicio = (inter.horaInicio.hour * 60) + inter.horaInicio.minute
+        fin    = (inter.horaFin.hour * 60)    + inter.horaFin.minute
+        bisect.insort(inis, inicio)
+        bisect.insort(fins, fin)
+    
+    i = 0
+    j = 0
+    cnt = 0
+    # Algoritmo de Marzullo para intervalos O(n) con algunas modificaciones
+    while i < len(inis) and j < len(fins):
+        if inis[i] < fins [j]:
+            cnt = cnt + 1
+            i = i + 1
+        elif inis[i] == fins[j]:
+            i = i + 1
+            j = j + 1
+        else:
+            cnt = cnt - 1
+            j = j + 1
+        if cnt == cap:
+            return False
+    return True
     
     
 def calcularMonto(reserva):
@@ -85,6 +99,8 @@ class ContactWizard(SessionWizardView):
 
 def procesar_form_data(form_list, form_dict):
     form_data = [form.cleaned_data for form in form_list]
+    
+    a = WizardView.get_form(self, 0)
     
     return form_data
 
@@ -156,9 +172,7 @@ def pagarReserva(request):
     
     if request.method == 'POST':
         form = PagoForm(request.POST)
-        print form.is_valid()
         if form.is_valid():
-            print "HUEHUEHUE"
             form.save(commit=True)
             return index(request)
     else:
