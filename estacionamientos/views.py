@@ -10,17 +10,32 @@ def layout(request):
     RequestContext(request)
     return render_to_response('estacionamientos/layout.html')
 
-def verificarReserva(entrada, salida, cap):
-    # Una unica consulta sin ordenamiento, presumiblemente O(n)
-    #intersecciones = Reserva.objects.filter(Q(horaInicio__range = (entrada, salida))|Q(horaFin__range = (entrada, salida)))
-    intersecciones = Reserva.objects.filter( (Q(horaInicio__gte = entrada) & Q(horaInicio__lt = salida))
-                                           | (Q(horaFin__gt = entrada)     & Q(horaFin__lte = salida)))
+def verificarReserva(est, entrada, salida):
+    abreEst = est.horaI
+    cierraEst = est.horaF
+    iniRestr = est.reservaI
+    finRestr = est.reservaF
     
+    # Hora de apertura del estacionamiento
+    if (abreEst is not None) and (abreEst > entrada):
+        return False
+
+    # Hora en que cierra el estacionamiento
+    if (cierraEst is not None) and (cierraEst < salida):
+        return False
+    
+    # Hora de reserva restringida
+    if (iniRestr is not None) and (finRestr is not None) and (entrada < finRestr) and (salida > iniRestr):
+        return False
+    
+    # Consulta de resevas del estacionamiento
+    intersecta = Reserva.objects.filter( Q(horaInicio__lt = salida) & Q(horaFin__gt = entrada), 
+                                         estacionamiento = est)
     inis = []
     fins = []
     
     # Recorrer el Queryset O(n), insertion Sort O(n)
-    for inter in intersecciones:
+    for inter in intersecta:
         inicio = (inter.horaInicio.hour * 60) + inter.horaInicio.minute
         fin    = (inter.horaFin.hour * 60)    + inter.horaFin.minute
         bisect.insort(inis, inicio)
@@ -40,7 +55,7 @@ def verificarReserva(entrada, salida, cap):
         else:
             cnt = cnt - 1
             j = j + 1
-        if cnt == cap:
+        if cnt == est.capacidad:
             return False
     return True
     
@@ -68,8 +83,7 @@ def crearReserva(request):
             est = form.cleaned_data['estacionamiento']
             inicio = form.cleaned_data['horaInicio']
             fin = form.cleaned_data['horaFin']
-            cap = Estacionamiento.objects.get(nombre_est=est.nombre_est).capacidad
-            hayReserva = verificarReserva(inicio, fin, cap)
+            hayReserva = verificarReserva(est, inicio, fin)
             if hayReserva:
                 form.save(commit=True)
             else:
