@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 from estacionamientos import views
 from estacionamientos.forms import PagoForm, ReservaForm
-from estacionamientos.views import ContactWizard
+from estacionamientos.views import ContactWizard, FORMS
 
 urlpatterns = patterns('',
                        url(r'^$', views.index, name='index'),
@@ -13,5 +13,5 @@ urlpatterns = patterns('',
                        url(r'^nueva_reserva/$', views.crearReserva, name="reservar"),
                        url(r'^reservas/$', views.verReservas, name="lista reservas"),
                        url(r'^pago/$', views.pagarReserva, name="pago"),
-                       url(r'^todo/$', ContactWizard.as_view([ReservaForm, PagoForm])),
+                       url(r'^todo/$', ContactWizard.as_view(FORMS)),
 )

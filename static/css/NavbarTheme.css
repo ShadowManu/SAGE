@@ -7,7 +7,7 @@
 	margin-bottom: 20px
 }
 
-body > div:nth-child(3) > div.col-lg-9 > button a{
+body > div:nth-child(3) > div.col-lg-9 > div.right > button > a{
 	text-decoration: none;
 	color: #FFFFFF;
 }
@@ -16,13 +16,10 @@ body > div:nth-child(3) > div.col-lg-9 > button a{
 	max-height: 900px;
 }
 
-.espacio{
-	margin-left: 5%;
+.right{
+	text-align: right;
 }
 
-.right{
-	text-align: center;
-}
 
 .navbar-default {
 	background-color: #5d536c;

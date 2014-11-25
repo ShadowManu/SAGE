@@ -2,36 +2,41 @@
 <meta charset="utf-8">
 {% block contenido %}
 <div class="container">
-	<h1 class="titulo">Pago</h1>
 	<div class="row">
 		<div class="col-lg-3">
 		</div>
 		<div class="col-lg-6">
-		<form id="pago_form" method="post" action="" class="form-horizontal center-block" role="form">
-		    {% csrf_token %}			 
-+		    {{ form.non_field_errors }}
-+			<div class="fieldWrapper form-group">
-+				{{ form.nombre.errors }}
-+				{{ form.nombre.help_text }}
-+				<input type="text" class="form-control" id="{{ form.nombre }}"></input>
-+			</div>
-+			<div class="fieldWrapper form-group">
-+				{{ form.cedula.errors }}
-+				{{ form.cedula.help_text }}
-+				<input type="text" class="form-control" id="{{ form.cedula }}"></input>
-+			</div>
-+			<p style="text-align:right">
-+				{{ form.tipoTarjeta.errors }}
-+				{{ form.tipoTarjeta.help_text }}
-+				{{ form.tipoTarjeta }}						
-+			<p/>
-+			<div class="fieldWrapper form-group">
-+				{{ form.numeroTarjeta.errors }}
-+				{{ form.numeroTarjeta.help_text }}
-+				<input type="text" class="form-control" id="{{ form.numeroTarjeta }}"></input>
-+			</div>
-+			<input class="btn btn-primary" type="submit" name="submit" value="Pagar"/>
-		</form>
+			<form id="estacionamiento_form" method="post" action="" class="form-horizontal center-block" role="form">
+		    	{% csrf_token %}
+	    	 	{{ wizard.management_form }}
+
+	    	 	<div class="panel panel-default">
+				  <div class="panel-heading">
+				    <h3 class="panel-title">Pagar Reservación</h3>
+				  </div>
+				  <div class="panel-body">
+				    <div class="fieldWrapper form-group">
+						{{ form.nombre.errors }}
+						{{ form.nombre }}
+					</div>
+					<div class="fieldWrapper form-group">
+							{{ form.cedula.errors }}
+							{{ form.cedula }}
+					</div>
+					<div class="fieldWrapper form-group">
+							{{ form.tipoTarjeta.errors }}
+							{{ form.tipoTarjeta }}
+					</div>
+					<div class="fieldWrapper form-group">
+							{{ form.numeroTarjeta.errors }}
+							{{ form.numeroTarjeta }}
+					</div>
+				  </div>
+				</div>
+			<div class="right">
+					<input class="btn btn-primary" type="submit" name="submit" value="Crear Estacionamiento"/>
+			</div>
+			</form>
 		</div>
 	</div>
 </div>

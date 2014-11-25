@@ -54,9 +54,9 @@ class ReservaForm(forms.ModelForm):
     estacionamiento = forms.ModelChoiceField(queryset=Estacionamiento.objects.all(),
                                              empty_label="Estacionamiento",
                                              widget=forms.Select(attrs={'class': 'form-control',}))
-    horaInicio = forms.TimeField(widget=forms.TextInput(attrs={'class': 'form-control',
+    horaInicio = forms.TimeField(widget=forms.DateInput(attrs={'class': 'form-control',
                                                               'placeholder': 'Inicio de la Reserva',}))
-    horaFin = forms.TimeField(widget=forms.TextInput(attrs={'class': 'form-control',
+    horaFin = forms.TimeField(widget=forms.DateInput(attrs={'class': 'form-control',
                                                             'placeholder': 'Fin de la Reserva',}))
     
     class Meta:
@@ -65,17 +65,30 @@ class ReservaForm(forms.ModelForm):
         
         
 class PagoForm(forms.ModelForm):
-    TARJETAS = (
-     ('Vista', 'Vista'),
-     ('Mister', 'Mister'),
-     ('Xpres', 'Xpres'))
+    TARJETAS = [
+                ('', 'Tipo de Tarjeta'),
+                ('Vista', 'Vista'),
+                ('Mister', 'Mister'),
+                ('Xpres', 'Xpres')
+                ]
       
-    nombre = forms.CharField(help_text="Nombre y Apellido: ")
-    cedula = forms.IntegerField(help_text="Cédula: ")
-    tipoTarjeta = forms.ChoiceField(choices=TARJETAS, help_text="Tipo de tarjeta: ")
-    numeroTarjeta = forms.RegexField(help_text="Nro. Tarjeta: ", min_length=16, max_length=16,
-                                     regex=r'^(\d)+$', error_message = ("Número de tarjeta no válido."))        
+    nombre = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
+                                                            'placeholder': 'Nombre',}))
+    cedula = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control',
+                                                            'placeholder': 'Cédula',}))
+    tipoTarjeta = forms.ChoiceField(choices=TARJETAS, widget=forms.Select(attrs={'class': 'form-control'}))
+    numeroTarjeta = forms.RegexField(min_length=16, max_length=16, regex=r'^(\d)+$', 
+                                     error_message = ("Número de tarjeta no válido."), 
+                                     widget=forms.TextInput(attrs={'class': 'form-control',
+                                                            'placeholder': 'Número de Tarjeta',}))
     
     class Meta:
         model = Pago
         fields = ['nombre', 'cedula', 'tipoTarjeta', 'numeroTarjeta',]
+        
+        
+class VerificarForm(forms.ModelForm):
+    hayPuesto = forms.BooleanField()
+    
+    class Meta:
+        model = Pago

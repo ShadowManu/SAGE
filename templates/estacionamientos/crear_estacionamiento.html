@@ -2,88 +2,108 @@
 <meta charset="utf-8">
 {% block contenido %}
 <div class="container">
-	<h1 class="titulo">Nuevo Estacionamiento</h1>
+	<h1 class="titulo">Nuevo Estacionamiento</h1>	
+	
 	<form id="estacionamiento_form" method="post" action="" class="form-horizontal center-block" role="form">
     	{% csrf_token %}
-    	<div class="row espacio">
-		<div class="col-lg-3">
-		    <div class="fieldWrapper form-group">
-					{{ form.nombre_duenio.errors }}
-					{{form.nombre_duenio}}
-			</div>
-			<div class="fieldWrapper form-group">
-					{{ form.nombre_est.errors }}
-					{{ form.nombre_est }}
-			</div>
-			<div class="fieldWrapper form-group">
-					{{ form.direccion.errors }}
-					{{ form.direccion }}
-			</div>
-			<div class="fieldWrapper form-group">
-					{{ form.telefono1.errors }}
-					{{ form.telefono1 }}
-			</div>
-			<div class="fieldWrapper form-group">
-					{{ form.telefono2.errors }}
-					{{ form.telefono2 }}
-			</div>
-			<div class="fieldWrapper form-group">
-					{{ form.telefono1.errors }}
-					{{ form.telefono3 }}
-			</div>
-		</div>
-		<div class="col-lg-1"></div>
-		<div class="col-lg-3">
-			<div class="fieldWrapper form-group">
-					{{ form.email1.errors }}
-					{{ form.email1 }}
-			</div>
-			<div class="fieldWrapper form-group">
-					{{ form.email2.errors }}
-					{{ form.email2 }}
-			</div>
-			<div class="fieldWrapper form-group">
-					{{ form.email3.errors }}
-					{{ form.email3 }}
-			</div>
-			<div class="fieldWrapper form-group">
-					{{ form.rif.errors }}
-					{{ form.rif }}
-			</div>
-			<div class="fieldWrapper form-group">
-					{{ form.capacidad.errors }}
-					{{ form.capacidad }}
-			</div>
-			<div class="fieldWrapper form-group">
-					{{ form.tarifa.errors }}
-					{{ form.tarifa }}
-			</div>
-		</div>
-		<div class="col-lg-1"></div>
-		<div class="col-lg-3">
-			<div class="fieldWrapper form-group">
-					{{ form.horaI.errors }}
-					{{ form.horaI }}
-			</div>
-			<div class="fieldWrapper form-group">
-					{{ form.horaF.errors }}
-					{{ form.horaF }}
-			</div>
-			<div class="fieldWrapper form-group">
-					{{ form.reservaI.errors }}
-					{{ form.reservaI }}
-			</div>
-			<div class="fieldWrapper form-group">
-					{{ form.reservaF.errors }}
-					{{ form.reservaF }}
-			</div>
-			<br/><br/>
-			<div class="right">
-				<input class="btn btn-primary" type="submit" name="submit" value="Crear Estacionamiento"/>
-			</div>
-		</div>
-		</div>
-		</div>
+    	
+    	<div class="row">
+    		<div class="col-lg-7">
+				<div class="panel panel-default">
+				  <div class="panel-heading">
+				    <h3 class="panel-title">Datos del Estacionamiento</h3>
+				  </div>
+				  <div class="panel-body">
+				    
+				    <div class="row">
+				    	<div class="col-lg-6">
+				    		<div class="fieldWrapper form-group">
+									{{ form.nombre_duenio.errors }}
+									{{form.nombre_duenio}}
+							</div>
+							<div class="fieldWrapper form-group">
+									{{ form.nombre_est.errors }}
+									{{ form.nombre_est }}
+							</div>
+							<div class="fieldWrapper form-group">
+									{{ form.direccion.errors }}
+									{{ form.direccion }}
+							</div>
+							<div class="fieldWrapper form-group">
+									{{ form.telefono1.errors }}
+									{{ form.telefono1 }}
+							</div>
+							<div class="fieldWrapper form-group">
+									{{ form.telefono2.errors }}
+									{{ form.telefono2 }}
+							</div>
+							<div class="fieldWrapper form-group">
+									{{ form.telefono1.errors }}
+									{{ form.telefono3 }}
+							</div>
+				    	</div>
+				    	<div class="col-lg-6">
+				    		<div class="fieldWrapper form-group">
+									{{ form.email1.errors }}
+									{{ form.email1 }}
+							</div>
+							<div class="fieldWrapper form-group">
+									{{ form.email2.errors }}
+									{{ form.email2 }}
+							</div>
+							<div class="fieldWrapper form-group">
+									{{ form.email3.errors }}
+									{{ form.email3 }}
+							</div>
+							<div class="fieldWrapper form-group">
+									{{ form.rif.errors }}
+									{{ form.rif }}
+				    		</div>
+				    </div>
+				    
+				    
+				    
+				  </div>
+				</div>
+    		</div>
+    		</div>
+    		
+    		<div class="col-lg-5">
+				<div class="panel panel-default">
+				  <div class="panel-heading">
+				    <h3 class="panel-title">Parametros del Estacionamiento</h3>
+				  </div>
+				  <div class="panel-body">
+				    <div class="fieldWrapper form-group">
+						{{ form.capacidad.errors }}
+						{{ form.capacidad }}
+					</div>
+					<div class="fieldWrapper form-group">
+							{{ form.tarifa.errors }}
+							{{ form.tarifa }}
+					</div>
+					<div class="fieldWrapper form-group">
+						{{ form.horaI.errors }}
+						{{ form.horaI }}
+					</div>
+					<div class="fieldWrapper form-group">
+							{{ form.horaF.errors }}
+							{{ form.horaF }}
+					</div>
+					<div class="fieldWrapper form-group">
+							{{ form.reservaI.errors }}
+							{{ form.reservaI }}
+					</div>
+					<div class="fieldWrapper form-group">
+							{{ form.reservaF.errors }}
+							{{ form.reservaF }}
+					</div>
+				  </div>
+				</div>
+    		</div>
+    	</div>
+    	<div class="right">
+					<input class="btn btn-primary" type="submit" name="submit" value="Crear Estacionamiento"/>
 		</div>
 	</form>
 </div>

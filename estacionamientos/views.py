@@ -2,13 +2,15 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.db.models import Q, F
 from django.contrib.formtools.wizard.views import SessionWizardView, WizardView
-from estacionamientos.forms import EstacionamientosForm, ReservaForm, PagoForm
+from estacionamientos.forms import EstacionamientosForm, ReservaForm, PagoForm, VerificarForm
 from estacionamientos.models import Estacionamiento, Reserva, Puesto
 from decimal import Decimal, ROUND_HALF_UP
+from datetime import *
 import bisect
 
+
 def layout(request):
-    RequestContext(request)
+    context = RequestContext(request)
     return render_to_response('estacionamientos/layout.html')
 
 def verificarReserva(entrada, salida, cap):
@@ -45,11 +47,11 @@ def verificarReserva(entrada, salida, cap):
             return False
     return True
     
+def calcularMonto(tarifa, inicio, fin):
     
-def calcularMonto(reserva):
-    tarifa = reserva.estacionamiento.tarifa
-    inicio = reserva.horaInicio
-    fin = reserva.horaFin
+    print ("Calcular monto")
+    print (inicio)
+    print (fin)
     
     diferenciaHoras= fin.hour - inicio.hour
     diferenciaMinutos = fin.minute - inicio.minute
@@ -67,19 +69,18 @@ def crearReserva(request):
     if request.method == 'POST':
         form = ReservaForm(request.POST)
         if form.is_valid():
-            nombre = form.cleaned_data['estacionamiento']
+            est = form.cleaned_data['estacionamiento']
             inicio = form.cleaned_data['horaInicio']
             fin = form.cleaned_data['horaFin']
-            puesto = verificarReserva(inicio, fin, nombre)
-            if puesto:
-                reserva = form.save(commit=False)
-                reserva.puesto = puesto
-                reserva.save()
+            cap = Estacionamiento.objects.get(nombre_est=est.nombre_est).capacidad
+            hayReserva = verificarReserva(inicio, fin, cap)
+            if hayReserva:
+                form.save(commit=True)
             else:
                 ocupado = True
                 return render_to_response('estacionamientos/crear_reserva.html',
-                                          {'form': form, 'ocupado': ocupado, 'estacionamiento': nombre},
-                                          context)  
+                                          {'form': form, 'ocupado': ocupado, 'estacionamiento': est},
+                                          context)                
             return index(request)
     else:
         form = ReservaForm()
@@ -88,8 +89,43 @@ def crearReserva(request):
 
 
 # Contact Wizard
+FORMS = [("0", ReservaForm),
+         ("1", VerificarForm),
+         ("2", PagoForm)
+         ]
+
+TEMPLATES = {"0": "estacionamientos/crear_reserva.html",
+             "1": "estacionamientos/verificarReserva.html",
+             "2": "estacionamientos/pago.html"
+             }
+
 class ContactWizard(SessionWizardView):
-    template_name = 'estacionamientos/reservas.html'
+    def get_template_names(self):
+        return [TEMPLATES[self.steps.current]]
+    
+    def get_form_initial(self, step):
+        
+        current = self.steps.current
+        
+        if current == '0':
+            formulario = self.storage.get_step_data('0')
+            if formulario:
+                est = formulario.get('0-estacionamiento')
+                inicio = formulario.get('0-horaInicio')
+                fin = formulario.get('0-horaFin')
+                print (formulario)
+                cap = Estacionamiento.objects.get(pk=est).capacidad
+                tarifa = Estacionamiento.objects.get(pk=est).tarifa
+                hayReserva = verificarReserva(inicio, fin, cap)
+                
+                inicio = datetime.strptime(inicio, "%I:%M %p")
+                fin = datetime.strptime(fin, "%I:%M %p")
+                
+                monto = calcularMonto(tarifa, inicio, fin)
+                print (monto)
+                
+                return self.initial_dict.get(step, {'hayPuesto': hayReserva})
+
     
     def done(self, form_list, form_dict, **kwargs):
         form_data = procesar_form_data(form_list,form_dict)
@@ -99,8 +135,6 @@ class ContactWizard(SessionWizardView):
 
 def procesar_form_data(form_list, form_dict):
     form_data = [form.cleaned_data for form in form_list]
-    
-    a = WizardView.get_form(self, 0)
     
     return form_data
 
