@@ -164,9 +164,10 @@ def crearEstacionamiento(request):
             form.save(commit=True)
             i = 1
             aux = Estacionamiento.objects.get(nombre_est=est)
-            while (i<=cap):
-                Puesto.objects.create(estacionamiento=aux, numero=i)
-                i += 1
+            if (cap):
+                while (i<=cap):
+                    Puesto.objects.create(estacionamiento=aux, numero=i)
+                    i += 1
             return index(request)
     else:
         form = EstacionamientosForm()
