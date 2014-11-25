@@ -31,6 +31,9 @@ class Puesto(models.Model):
     
     def __unicode__(self):
         return str(self.estacionamiento)+" - "+str(self.numero)
+    
+    def  __str__(self):
+        return str(self.estacionamiento)+" - "+str(self.numero)
 
 
 class Reserva(models.Model):
@@ -40,7 +43,10 @@ class Reserva(models.Model):
     horaFin = models.TimeField()
     
     def __unicode__(self):
-        return "reserva"
+        return "Reserva"
+    
+    def __str__(self):
+        return "Reserva"
     
 class Pago(models.Model):
     nombre = models.CharField(max_length=30)
@@ -49,7 +55,8 @@ class Pago(models.Model):
     numeroTarjeta = models.CharField(max_length=16)
     pago = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
 
-    
     def __unicode__(self):
-        return self.nombre
+        return "Pago"
     
+    def __str__(self):
+        return "Pago"
