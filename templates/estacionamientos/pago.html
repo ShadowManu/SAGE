@@ -2,6 +2,7 @@
 <meta charset="utf-8">
 {% block contenido %}
 <div class="container">
+<p>Paso {{ wizard.steps.step1 }} de {{ wizard.steps.count }}</p>
 	<div class="row">
 		<div class="col-lg-3">
 		</div>
@@ -33,9 +34,7 @@
 					</div>
 				  </div>
 				</div>
-			<div class="right">
-					<input class="btn btn-primary" type="submit" name="submit" value="Crear Estacionamiento"/>
-			</div>
+			<input type="submit" value="submit"/>
 			</form>
 		</div>
 	</div>

@@ -48,6 +48,7 @@ class Reserva(models.Model):
     def __str__(self):
         return "Reserva"
     
+    
 class Pago(models.Model):
     nombre = models.CharField(max_length=30)
     cedula = models.PositiveIntegerField(max_length=8)

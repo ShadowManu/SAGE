@@ -85,10 +85,3 @@ class PagoForm(forms.ModelForm):
     class Meta:
         model = Pago
         fields = ['nombre', 'cedula', 'tipoTarjeta', 'numeroTarjeta',]
-        
-        
-class VerificarForm(forms.ModelForm):
-    hayPuesto = forms.BooleanField()
-    
-    class Meta:
-        model = Pago

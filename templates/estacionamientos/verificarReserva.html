@@ -2,6 +2,7 @@
 <meta charset="utf-8">
 {% block contenido %}
 <div class="container">
+<p>Paso {{ wizard.steps.step1 }} de {{ wizard.steps.count }}</p>
 	<div class="row">
 		<div class="col-lg-3">
 		</div>
@@ -9,18 +10,7 @@
 			<form id="estacionamiento_form" method="post" action="" class="form-horizontal center-block" role="form">
 		    	{% csrf_token %}
 	    	 	{{ wizard.management_form }}
-	    	 	{% if form.hayPuesto == True %}
-	    	 		<p>Hay puesto</p>
-	    	 		<div class="right">
-						<input class="btn btn-primary" type="submit" name="submit" value="Pagar"/>
-					</div>
-	    	 	{% else %}
-	    	 		<p>No hay puesto</p>
-	    	 		<div class="right">
-						<button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">Seleccionar Otro</button>
-						</input>
-					</div>
-    	 		{% endif %}
+			<input type="submit" value="submita"/>
 			</form>
 		</div>
 	</div>
