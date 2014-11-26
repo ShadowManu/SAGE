@@ -1,0 +1,80 @@
+{% extends 'layout.html' %}
+<meta charset="utf-8">
+{% block contenido %}
+<div class="container">
+	<div class="row">
+		<div class="col-lg-3">
+		</div>
+		<div class="col-lg-6">
+			{% if form.pago.value %}
+			
+				<div class="progress">
+				  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 66%;">
+				  </div>
+				</div>
+	
+				<div class="panel panel-default">
+				  <div class="panel-body">
+				  	<p> Se le asignó una reservación para ese horario, su monto a pagar es: {{ form.pago.value }} Bsf.</p>
+				  </div>
+				</div>
+				
+				<form id="estacionamiento_form" method="post" action="" class="form-horizontal center-block" role="form">
+					{% csrf_token %}
+					{{ wizard.management_form }}
+				
+					<div class="panel panel-default">
+					  <div class="panel-heading">
+						<h3 class="panel-title">Pagar Reservación</h3>
+					  </div>
+					  <div class="panel-body">
+						<div class="fieldWrapper form-group">
+							{{ form.nombre.errors }}
+							{{ form.nombre }}
+						</div>
+						<div class="fieldWrapper form-group">
+								{{ form.cedula.errors }}
+								{{ form.cedula }}
+						</div>
+						<div class="fieldWrapper form-group">
+								{{ form.tipoTarjeta.errors }}
+								{{ form.tipoTarjeta }}
+						</div>
+						<div class="fieldWrapper form-group">
+								{{ form.numeroTarjeta.errors }}
+								{{ form.numeroTarjeta }}
+						</div>
+						<div class="oculto">{{ form.pago }}</div>
+					  </div>
+					</div>
+					<div>
+						<button name="wizard_goto_step" class="btn btn-warning" type="submit" value="{{ wizard.steps.first }}">
+							<span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Volver
+						</button>
+						
+						<input type="submit" class="btn btn-primary" value="Pagar"/>
+					</div>
+				</form>
+
+			{% else %}
+			
+				<div class="panel panel-danger">
+					<div class="panel-heading">
+						<h3 class="panel-title">Solicitar Reserva</h3>
+					</div>
+					<div class="panel-body">
+						<p> No hay disponibilidad para su reservación.</p>
+					</div>
+				</div>
+				<a href="/nueva_reserva/">
+				<button name="wizard_goto_step" class="btn btn-warning">
+					<span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Volver
+				</button>
+				</a>
+			
+			{% endif %}
+
+		</div>
+	</div>
+</div>
+{% endblock %}

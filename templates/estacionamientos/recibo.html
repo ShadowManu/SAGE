@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+<meta charset="utf-8">
+{% block contenido %}
+<div class="container">
+	<div class="row">
+		<div class="col-lg-3">
+		</div>
+		<div class="col-lg-6">
+		
+			<div class="progress">
+			  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+			  </div>
+			</div>
+			
+				<div class="panel panel-default">
+				  <div class="panel-heading">
+					<h3 class="panel-title">Recibo</h3>
+				  </div>
+				  <div class="panel-body">
+					<p><b>Estacionamiento:</b> {{form_data.0.estacionamiento}}</p>
+					<p><b>Hora Inicio:</b> {{form_data.0.HoraInicio}}</p>
+					<p><b>Hora Fin:</b> {{form_data.0.horaFin}}</p>
+					<p><b>Nombre Cliente:</b> {{form_data.1.nombre}}</p>
+					<p><b>Número de Tarjeta:</b> {{form_data.1.numeroTarjeta}}</p>
+					<p><b>Tipo de Tarjeta:</b> {{form_data.1.tipoTarjeta}}</p>
+					<p><b>Cédula:</b> {{form_data.1.cedula}}</p>
+					<p><b>Monto Cancelado:</b> {{form_data.1.pago}}</p>
+				  </div>
+				</div>
+
+		</div>
+	</div>
+</div>
+	
+{% endblock %}

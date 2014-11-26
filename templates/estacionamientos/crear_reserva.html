@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+<meta charset="utf-8">
+{% block contenido%}
+<div class="row">
+	<div class="col-lg-3">
+	</div>
+	<div class="col-lg-6">
+	
+	
+	<div class="progress">
+	  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 33%;">
+	  </div>
+	</div>
+	
+	
+	<form id="estacionamiento_form" method="post" action="" class="form-horizontal center-block" role="form">
+		<div class="panel panel-default">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Solicitar Reserva</h3>
+		  </div>
+		  <div class="panel-body">
+		    	{% csrf_token %}
+	    	 	{{ wizard.management_form }}
+		    	<div class="fieldWrapper form-group">
+						{{ form.horaInicio.errors }}
+						{{ form.horaInicio }}
+				</div>
+				<div class="fieldWrapper form-group">
+						{{ form.horaFin.errors }}
+						{{ form.horaFin }}
+				</div>
+				<div class="fieldWrapper form-group">
+						{{ form.estacionamiento.errors }}
+						{{ form.estacionamiento }}
+				</div>
+		  </div>
+		</div>
+		<div class="right">
+		<input type="submit" class="btn btn-primary" value="Reservar"/>
+		</div>
+		</form>
+	</div>
+</div>
+{% endblock %}

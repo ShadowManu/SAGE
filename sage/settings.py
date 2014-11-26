@@ -7,7 +7,7 @@ https://docs.djangoproject.com/en/1.7/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
-
+    
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
@@ -28,6 +28,9 @@ STATIC_PATH = os.path.join(PROJECT_PATH,'static')
 
 # Direccion database
 DATABASE_PATH = os.path.join(PROJECT_PATH, 'db.sqlite3')
+
+# Formato para ingresar las horas
+TIME_INPUT_FORMATS = ('%I:%M %p',)
 
 
 # Quick-start development settings - unsuitable for production
@@ -53,8 +56,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.formtools',
     'estacionamientos',
-    'bootstrap_toolkit'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -95,7 +98,9 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
+
+TIME_FORMAT = 'P'
 
 USE_TZ = True
 
