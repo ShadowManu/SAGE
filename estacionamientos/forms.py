@@ -71,10 +71,10 @@ class PagoForm(forms.ModelForm):
     cedula = forms.IntegerField(widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'Cédula',}))
     tipoTarjeta = forms.ChoiceField(choices=TARJETAS, widget=forms.Select(attrs={'class': 'form-control'}))
-    numeroTarjeta = forms.RegexField(min_length=16, max_length=16, regex=r'^(\d)+$', 
+    numeroTarjeta = forms.RegexField(min_length=16, max_length=16, regex=r'^(\d)+$',
         error_message = ("Número de tarjeta no válido."), widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'Número de Tarjeta',}))
     
     class Meta:
         model = Pago
-        fields = ['nombre', 'cedula', 'tipoTarjeta', 'numeroTarjeta',]
+        fields = ['nombre', 'cedula', 'tipoTarjeta', 'numeroTarjeta', 'pago']
