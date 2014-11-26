@@ -7,11 +7,13 @@ from estacionamientos.models import Estacionamiento, Reserva, Puesto
 from decimal import Decimal, ROUND_HALF_UP
 from datetime import *
 import bisect
+from django.contrib.formtools import wizard
 
 
 def layout(request):
     context = RequestContext(request)
     return render_to_response('estacionamientos/layout.html')
+
 
 def verificarReserva(entrada, salida, cap):
     # Una unica consulta sin ordenamiento, presumiblemente O(n)
@@ -83,15 +85,16 @@ def crearReserva(request):
     return render_to_response('estacionamientos/crear_reserva.html',
                               {'form': form}, context)
 
+def verDatosPago(request):
+    context = RequestContext(request)
+    return render_to_response('estacionamientos/verificarReserva.html', {}, context)
 
 # Contact Wizard
 FORMS = [("0", ReservaForm),
-         #("1", VerificarForm),
          ("1", PagoForm),
          ]
 
 TEMPLATES = {"0": "estacionamientos/crear_reserva.html",
-             #"1": "estacionamientos/verificarReserva.html",
              "1": "estacionamientos/pago.html"
              }
 
@@ -111,28 +114,20 @@ class ContactWizard(SessionWizardView):
                 cap = Estacionamiento.objects.get(pk=est).capacidad
                 tarifa = Estacionamiento.objects.get(pk=est).tarifa
                 hayReserva = verificarReserva(inicio, fin, cap)
-                
-                inicio = datetime.strptime(inicio, "%I:%M %p")
-                fin = datetime.strptime(fin, "%I:%M %p")
-                monto = calcularMonto(tarifa, inicio, fin)
-                return self.initial_dict.get(step, {})
-            
+                if hayReserva:
+                    inicio = datetime.strptime(inicio, "%I:%M %p")
+                    fin = datetime.strptime(fin, "%I:%M %p")
+                    monto = calcularMonto(tarifa, inicio, fin)
+                    print (monto)
+                    return self.initial_dict.get(step, {'pago': monto})
+
         return self.initial_dict.get(step, {})
 
     
-    def done(self, form_list, form_dict, **kwargs):
-        form_data = procesar_form_data(form_list)
-        
+    def done(self, form_list, form_dict, **kwargs):      
         form_dict['0'].save()
         form_dict['1'].save()
-                
-        return render_to_response('estacionamientos/recibo.html', {'form_data': form_data})
-
-
-def procesar_form_data(form_list):
-    form_data = [form.cleaned_data for form in form_list]
-    
-    return form_data
+        return render_to_response('estacionamientos/recibo.html', {'form_data': [form.cleaned_data for form in form_list]})
 
 
 def verReservas(request):

@@ -81,7 +81,8 @@ class PagoForm(forms.ModelForm):
                                      error_message = ("Número de tarjeta no válido."), 
                                      widget=forms.TextInput(attrs={'class': 'form-control',
                                                             'placeholder': 'Número de Tarjeta',}))
+    #pago = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'oculto'}))
     
     class Meta:
         model = Pago
-        fields = ['nombre', 'cedula', 'tipoTarjeta', 'numeroTarjeta',]
+        fields = ['nombre', 'cedula', 'tipoTarjeta', 'numeroTarjeta', 'pago']

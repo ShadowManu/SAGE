@@ -20,6 +20,10 @@ body > div:nth-child(3) > div.col-lg-9 > div.right > button > a{
 	text-align: right;
 }
 
+.oculto{
+	display: none;
+}
+
 
 .navbar-default {
 	background-color: #5d536c;
