@@ -154,15 +154,7 @@ def crearEstacionamiento(request):
     if request.method == 'POST':
         form = EstacionamientosForm(request.POST)
         if form.is_valid():
-            cap = form.cleaned_data['capacidad']
-            est = form.cleaned_data['nombre_est']
             form.save(commit=True)
-            i = 1
-            aux = Estacionamiento.objects.get(nombre_est=est)
-            if (cap):
-                while (i<=cap):
-                    Puesto.objects.create(estacionamiento=aux, numero=i)
-                    i += 1
             return index(request)
     else:
         form = EstacionamientosForm()

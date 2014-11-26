@@ -25,17 +25,6 @@ class Estacionamiento(models.Model):
         return self.nombre_est
 
 
-class Puesto(models.Model):
-    estacionamiento = models.ForeignKey(Estacionamiento)
-    numero = models.IntegerField()
-    
-    def __unicode__(self):
-        return str(self.estacionamiento)+" - "+str(self.numero)
-    
-    def  __str__(self):
-        return str(self.estacionamiento)+" - "+str(self.numero)
-
-
 class Reserva(models.Model):
     estacionamiento = models.ForeignKey(Estacionamiento)
     #puesto = models.ForeignKey(Puesto)
