@@ -3,8 +3,11 @@
 {% block contenido %}
 	{% if lista %}
 		<div class="list-group col-lg-3">
+		<a href="#" class="list-group-item disabled">
+	    	Estacionamientos:
+	  	</a>
 		{% for est in lista %}
-			<a href="/{{ est.id }}" class="list-group-item list-group-item-info panel-est">{{ est.nombre_est }}</a></li>
+			<a href="/{{ est.id }}" class="list-group-item list-group-item panel-est">{{ est.nombre_est }}</a></li>
 		{% endfor %}
 		</div>
 	{% else %}
@@ -22,7 +25,9 @@
 					<input type="text" class="form-control" id={{ field }}</input>
 				</div>
 			{% endfor %}
-			<input class="btn btn-primary" type="submit" name="submit" value="Guardar Cambios"/>
+			<div class="right">
+				<input class="btn btn-primary" type="submit" name="submit" value="Guardar Cambios"/>
+			</div>
 		</form>
 	</div>
 {% endblock %}

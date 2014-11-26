@@ -1,10 +1,11 @@
 from django.test import TestCase
-from estacionamientos.models import Estacionamiento, Reserva
+from estacionamientos.models import Estacionamiento, Reserva, Puesto, Pago
 from estacionamientos.forms import ReservaForm, EstacionamientosForm
 import sys
 from datetime import datetime
 from estacionamientos.views import crearEstacionamiento
 import copy
+
 # Create your tests here.
 
 #DATOS PARA CREAR UN ESTACIONAMIENTO CUALQUIERA

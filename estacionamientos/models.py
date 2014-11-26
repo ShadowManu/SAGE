@@ -11,10 +11,10 @@ class Estacionamiento(models.Model):
     email2 = models.EmailField(null=True, blank=True)
     email3 = models.EmailField(null=True, blank=True)
     rif = models.IntegerField()
-    capacidad = models.IntegerField(null=True, blank=True)
-    tarifa = models.IntegerField(null=True, blank=True)
-    horaI = models.TimeField(null=True, blank=True)
-    horaF = models.TimeField(null=True, blank=True)
+    capacidad = models.IntegerField()
+    tarifa = models.DecimalField(max_digits=7, decimal_places=2)
+    horaI = models.TimeField()
+    horaF = models.TimeField()
     reservaI = models.TimeField(null=True, blank=True)
     reservaF = models.TimeField(null=True, blank=True)
     
@@ -32,25 +32,33 @@ class Puesto(models.Model):
     
     def __unicode__(self):
         return str(self.estacionamiento)+" - "+str(self.numero)
+    
+    def  __str__(self):
+        return str(self.estacionamiento)+" - "+str(self.numero)
 
 
 class Reserva(models.Model):
     estacionamiento = models.ForeignKey(Estacionamiento)
-    puesto = models.ForeignKey(Puesto)
+    #puesto = models.ForeignKey(Puesto)
     horaInicio = models.TimeField()
     horaFin = models.TimeField()
     
     def __unicode__(self):
-        return "reserva"
+        return "Reserva"
     
-class Pago(models.Model):  
+    def __str__(self):
+        return "Reserva"
+    
+    
+class Pago(models.Model):
     nombre = models.CharField(max_length=30)
     cedula = models.PositiveIntegerField(max_length=8)
     tipoTarjeta = models.CharField(max_length=8)
     numeroTarjeta = models.CharField(max_length=16)
-    pago = models.DecimalField(max_digits=8, decimal_places=2)
+    pago = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
 
-    
     def __unicode__(self):
-        return self.nombre
+        return "Pago"
     
+    def __str__(self):
+        return "Pago"

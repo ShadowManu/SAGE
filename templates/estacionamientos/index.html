@@ -3,33 +3,50 @@
 {% block contenido %}
 	{% if lista %}
 		<div class="list-group col-lg-3">
+		<a href="#" class="list-group-item disabled">
+			Estacionamientos:
+	  	</a>
 		{% for est in lista %}
-			<a href="/{{ est.id }}" class="list-group-item list-group-item-info panel-est">{{ est.nombre_est }}</a></li>
+			<a href="/{{ est.id }}" class="list-group-item list-group-item panel-est">{{ est.nombre_est }}</a></li>
 		{% endfor %}
 		</div>
 	{% endif %}
 	{% if parametros %}
-	<div class="col-lg-9">
-		<h1 class="titulo">Estacionamiento: {{ parametros.nombre_est }}</h1>
-		<p>Nombre dueño: {{ parametros.nombre_duenio }}</p>
-		<p>Nombre del estacionamiento: {{ parametros.nombre_est }}</p>
-		<p>Direcci&oacute;n: {{ parametros.direccion }}</p>
-		<p>Telefono 1: {{ parametros.telefono1 }}</p>
-		<p>Telefono 2: {{ parametros.telefono2|default_if_none:"No especificó." }}</p>
-		<p>Telefono 3: {{ parametros.telefono3|default_if_none:"No especificó." }}</p>
-		<p>Email 1: {{ parametros.email1 }}</p>
-		<p>Email 2: {{ parametros.email2|default_if_none:"No especificó." }}</p>
-		<p>email 3: {{ parametros.email3|default_if_none:"No especificó." }}</p>
-		<p>Rif: {{ parametros.rif }}</p>
-		<p>Capacidad: {{ parametros.capacidad }}</p>
-		<p>tarifa: {{ parametros.capacidad }}</p>
-		<p>Hora apertura: {{ parametros.horaI }}</p>
-		<p>Hora Cierre: {{ parametros.horaF }}</p>
-		<p>Hora inicio de restriccion de reserva: {{ parametros.reservaI|default_if_none:"No especificó." }}</p>
-		<p>Hora fin de restriccion de reserva: {{ parametros.reservaF|default_if_none:"No especificó." }}</p>
-		<button type="button" class="btn btn-primary"><a href="/{{ parametros.id }}/editar/">Editar</a></li></button>
-	</div>
-	{% else %}
+		<div class="col-lg-9">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Estacionamiento: {{ parametros.nombre_est }}</h3>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-lg-6">
+							<p>Nombre dueño: {{ parametros.nombre_duenio }}</p>
+							<p>Nombre del estacionamiento: {{ parametros.nombre_est }}</p>
+							<p>Dirección: {{ parametros.direccion }}</p>
+							<p>Telefono 1: {{ parametros.telefono1 }}</p>
+							<p>Telefono 2: {{ parametros.telefono2|default_if_none:"No especificó." }}</p>
+							<p>Telefono 3: {{ parametros.telefono3|default_if_none:"No especificó." }}</p>
+							<p>Email 1: {{ parametros.email1 }}</p>
+							<p>Email 2: {{ parametros.email2|default_if_none:"No especificó." }}</p>
+							<p>Email 3: {{ parametros.email3|default_if_none:"No especificó." }}</p>
+							<p>Rif: {{ parametros.rif }}</p>
+						</div>
+						<div class="col-lg-6">
+							<p>Capacidad: {{ parametros.capacidad }}</p>
+							<p>tarifa: {{ parametros.capacidad }}</p>
+							<p>Hora apertura: {{ parametros.horaI }}</p>
+							<p>Hora Cierre: {{ parametros.horaF }}</p>
+							<p>Hora inicio de restriccion de reserva: {{ parametros.reservaI|default_if_none:"No especificó." }}</p>
+							<p>Hora fin de restriccion de reserva: {{ parametros.reservaF|default_if_none:"No especificó." }}</p>
+						</div>
+					</div> <!-- end row-->
+			  	</div><!-- end panel body-->
+			</div><!-- end panel-->
+			<div class="right">
+				<button type="button" class="btn btn-primary"><a href="/{{ parametros.id }}/editar/">Editar</a></button>
+			</div>
+		</div>
+		{% else %}
 		<div class="col-lg-12">
 			<h1 align="center"> Bienvenido a SAGE.</h1>
 		</div>
