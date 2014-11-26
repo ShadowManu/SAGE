@@ -110,7 +110,8 @@ class EstacionamietoViewsTestCase(TestCase):
         self.assertEqual(est.reservaI.hour, datetime.strptime(DIC['reservaI'],'%I:%M %p').hour)
         self.assertEqual(est.reservaI.minute, datetime.strptime(DIC['reservaI'],'%I:%M %p').minute)
         self.assertEqual(est.reservaF.hour, datetime.strptime(DIC['reservaF'],'%I:%M %p').hour)
-        self.assertEqual(est.reservaF.minute, datetime.strptime(DIC['reservaF'],'%I:%M %p').minute)        
+        self.assertEqual(est.reservaF.minute, datetime.strptime(DIC['reservaF'],'%I:%M %p').minute)   
+        
                   
     def test_form_estacionamiento_nombre_repetido(self):
         DIC = DICT.copy()
