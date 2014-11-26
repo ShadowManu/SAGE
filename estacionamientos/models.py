@@ -23,6 +23,7 @@ class Estacionamiento(models.Model):
     
     def  __str__(self):
         return self.nombre_est
+        
 
 
 class Reserva(models.Model):
