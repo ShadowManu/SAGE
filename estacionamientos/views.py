@@ -1,31 +1,42 @@
 from django.template import RequestContext
-from django.shortcuts import render_to_response, get_object_or_404, redirect
-from django.db.models import Q, F
-from django.contrib.formtools.wizard.views import SessionWizardView, WizardView
+from django.shortcuts import render_to_response, get_object_or_404
+from django.db.models import Q
+from django.contrib.formtools.wizard.views import SessionWizardView
+import datetime
 from estacionamientos.forms import EstacionamientosForm, ReservaForm, PagoForm
-from estacionamientos.models import Estacionamiento, Reserva, Puesto
+from estacionamientos.models import Estacionamiento, Reserva
 from decimal import Decimal, ROUND_HALF_UP
-from datetime import *
 import bisect
-from django.contrib.formtools import wizard
-
 
 def layout(request):
-    context = RequestContext(request)
     return render_to_response('estacionamientos/layout.html')
 
-
-def verificarReserva(entrada, salida, cap):
-    # Una unica consulta sin ordenamiento, presumiblemente O(n)
-    #intersecciones = Reserva.objects.filter(Q(horaInicio__range = (entrada, salida))|Q(horaFin__range = (entrada, salida)))
-    intersecciones = Reserva.objects.filter( (Q(horaInicio__gte = entrada) & Q(horaInicio__lt = salida))
-                                           | (Q(horaFin__gt = entrada)     & Q(horaFin__lte = salida)))
+def verificarReserva(est, entrada, salida):
+    abreEst = est.horaI
+    cierraEst = est.horaF
+    iniRestr = est.reservaI
+    finRestr = est.reservaF
     
+    # Hora de apertura del estacionamiento
+    if (abreEst is not None) and (abreEst > entrada):
+        return False
+
+    # Hora en que cierra el estacionamiento
+    if (cierraEst is not None) and (cierraEst < salida):
+        return False
+    
+    # Hora de reserva restringida
+    if (iniRestr is not None) and (finRestr is not None) and (entrada < finRestr) and (salida > iniRestr):
+        return False
+    
+    # Consulta de resevas del estacionamiento
+    intersecta = Reserva.objects.filter( Q(horaInicio__lt = salida) & Q(horaFin__gt = entrada), 
+                                         estacionamiento = est)
     inis = []
     fins = []
     
     # Recorrer el Queryset O(n), insertion Sort O(n)
-    for inter in intersecciones:
+    for inter in intersecta:
         inicio = (inter.horaInicio.hour * 60) + inter.horaInicio.minute
         fin    = (inter.horaFin.hour * 60)    + inter.horaFin.minute
         bisect.insort(inis, inicio)
@@ -45,7 +56,7 @@ def verificarReserva(entrada, salida, cap):
         else:
             cnt = cnt - 1
             j = j + 1
-        if cnt == cap:
+        if cnt == est.capacidad:
             return False
     return True
     
@@ -70,8 +81,7 @@ def crearReserva(request):
             est = form.cleaned_data['estacionamiento']
             inicio = form.cleaned_data['horaInicio']
             fin = form.cleaned_data['horaFin']
-            cap = Estacionamiento.objects.get(nombre_est=est.nombre_est).capacidad
-            hayReserva = verificarReserva(inicio, fin, cap)
+            hayReserva = verificarReserva(est, inicio, fin)
             if hayReserva:
                 form.save(commit=True)
             else:
@@ -108,15 +118,13 @@ class ContactWizard(SessionWizardView):
         if current == '0':
             formulario = self.storage.get_step_data('0')
             if formulario:
-                est = formulario.get('0-estacionamiento')
-                inicio = formulario.get('0-horaInicio')
-                fin = formulario.get('0-horaFin')
-                cap = Estacionamiento.objects.get(pk=est).capacidad
-                tarifa = Estacionamiento.objects.get(pk=est).tarifa
-                hayReserva = verificarReserva(inicio, fin, cap)
-                if hayReserva:
-                    inicio = datetime.strptime(inicio, "%I:%M %p")
-                    fin = datetime.strptime(fin, "%I:%M %p")
+                est_id = formulario.get('0-estacionamiento')
+                inicio = datetime.datetime.strptime(formulario.get('0-horaInicio'), "%I:%M %p").time()
+                fin = datetime.datetime.strptime(formulario.get('0-horaFin'), "%I:%M %p").time()
+                est = Estacionamiento.objects.get(pk=est_id)
+                tarifa = est.tarifa
+                hayReserva = verificarReserva(est, inicio, fin)
+                if hayReserva: 
                     monto = calcularMonto(tarifa, inicio, fin)
                     print (monto)
                     return self.initial_dict.get(step, {'pago': monto})
