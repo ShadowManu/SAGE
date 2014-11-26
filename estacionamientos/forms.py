@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import re
 from django import forms
 from estacionamientos.models import Estacionamiento, Reserva, Pago
 
@@ -28,7 +27,7 @@ class EstacionamientosForm(forms.ModelForm):
         attrs={'class': 'form-control', 'placeholder': 'RIF',}))
     capacidad = forms.IntegerField(widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'Capacidad',}))
-    tarifa = forms.IntegerField(widget=forms.TextInput(
+    tarifa = forms.DecimalField(widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'Tarifa',}))
     horaI = forms.TimeField(widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'Hora Apertura',}))
@@ -38,20 +37,21 @@ class EstacionamientosForm(forms.ModelForm):
         attrs={'class': 'form-control', 'placeholder': 'Inicio Restringir Reserva',}), required=False)
     reservaF = forms.TimeField(widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'Fin Restringir Reserva',}), required=False)
-
+    
     class Meta:
         model = Estacionamiento
         fields = '__all__'
 
 
 class ReservaForm(forms.ModelForm):
-    estacionamiento = forms.ModelChoiceField(queryset=Estacionamiento.objects.all(),
-                                             empty_label="Estacionamiento",
-                                             widget=forms.Select(attrs={'class': 'form-control',}))
-    horaInicio = forms.TimeField(widget=forms.DateInput(attrs={'class': 'form-control',
-                                                              'placeholder': 'Inicio de la Reserva',}))
-    horaFin = forms.TimeField(widget=forms.DateInput(attrs={'class': 'form-control',
-                                                            'placeholder': 'Fin de la Reserva',}))
+    estacionamiento = forms.ModelChoiceField(
+        queryset=Estacionamiento.objects.all(),
+        empty_label="Estacionamiento",
+        widget=forms.Select(attrs={'class': 'form-control',}))
+    horaInicio = forms.TimeField(widget=forms.DateInput(
+        attrs={'class': 'form-control', 'placeholder': 'Inicio de la Reserva',}))
+    horaFin = forms.TimeField(widget=forms.DateInput(
+        attrs={'class': 'form-control', 'placeholder': 'Fin de la Reserva',}))
     
     class Meta:
         model = Reserva
@@ -66,15 +66,14 @@ class PagoForm(forms.ModelForm):
                 ('Xpres', 'Xpres')
                 ]
       
-    nombre = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control',
-                                                            'placeholder': 'Nombre',}))
-    cedula = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control',
-                                                            'placeholder': 'Cédula',}))
+    nombre = forms.CharField(widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'Nombre',}))
+    cedula = forms.IntegerField(widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'Cédula',}))
     tipoTarjeta = forms.ChoiceField(choices=TARJETAS, widget=forms.Select(attrs={'class': 'form-control'}))
     numeroTarjeta = forms.RegexField(min_length=16, max_length=16, regex=r'^(\d)+$', 
-                                     error_message = ("Número de tarjeta no válido."), 
-                                     widget=forms.TextInput(attrs={'class': 'form-control',
-                                                            'placeholder': 'Número de Tarjeta',}))
+        error_message = ("Número de tarjeta no válido."), widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'Número de Tarjeta',}))
     
     class Meta:
         model = Pago
